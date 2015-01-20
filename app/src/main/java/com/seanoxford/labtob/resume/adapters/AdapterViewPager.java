@@ -1,0 +1,73 @@
+package com.seanoxford.labtob.resume.adapters;
+
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.seanoxford.labtob.resume.fragments.FragmentAboutMe;
+import com.seanoxford.labtob.resume.fragments.FragmentGuestBook;
+import com.seanoxford.labtob.resume.fragments.FragmentProjects;
+
+/**
+ * Created by labtob on 12/6/2014.
+ */
+public class AdapterViewPager extends FragmentStatePagerAdapter {
+
+
+    final private static int FRAGMENT_ABOUT = 0;
+    final private static int FRAGMENT_PROJECTS = 1;
+    final private static int FRAGMENT_GUESTBOOK = 2;
+
+    protected FragmentManager mFragmentManager;
+
+
+
+    public AdapterViewPager(FragmentManager fm) {
+        super(fm);
+        mFragmentManager = fm;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        Fragment fragment = null;
+
+        switch(position){
+            case FRAGMENT_ABOUT:
+                fragment = new FragmentAboutMe();
+                break;
+            case FRAGMENT_PROJECTS:
+                fragment = new FragmentProjects();
+                break;
+            case FRAGMENT_GUESTBOOK:
+                fragment = new FragmentGuestBook();
+                break;
+        }
+
+        return fragment;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        String title = "";
+
+        switch(position){
+            case FRAGMENT_ABOUT:
+                title = "About";
+                break;
+            case FRAGMENT_PROJECTS:
+                title = "Projects";
+                break;
+            case FRAGMENT_GUESTBOOK:
+                title = "Guestbook";
+                break;
+        }
+
+        return title;
+    }
+
+    @Override
+    public int getCount() {
+        return 3;
+    }
+}
