@@ -1,9 +1,12 @@
 package com.seanoxford.labtob.resume.customviews;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
@@ -13,9 +16,8 @@ import android.widget.RelativeLayout;
 import com.seanoxford.labtob.resume.widgets.ContractAnimation;
 import com.seanoxford.labtob.resume.widgets.ExpandAnimation;
 
-/**
- * Created by labtob on 12/9/2014.
- */
+import java.util.zip.Inflater;
+
 public class CustomRelativeLayout extends RelativeLayout {
 
     private static final int DEFAULT_MENU_POSITION = -1;
@@ -66,19 +68,16 @@ public class CustomRelativeLayout extends RelativeLayout {
 
     private void initConstants() {
         if (!mConstantsInitiated) {
-//            mChildCount = getChildCount();
-
             //The distances from the top of this layout to place each sublayout
             mPositionsArray = new int[getChildCount()];
 
             mTotalHeight = getMeasuredHeight();
             mTotalWidth = getMeasuredWidth();
 
-
-
-            //TODO crash divide by zero
+            //TODO crash divide by zero, can't replicate
             mIndividualHeight = Math.round((float) mTotalHeight / (float) mChildCount);
 
+            //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
                 if(mTotalHeight < getMeasuredHeight())
@@ -97,7 +96,7 @@ public class CustomRelativeLayout extends RelativeLayout {
                 tempHeight += mIndividualHeight;
             }
 
-            //preventing measure calculations, accomodating for initial erroneous XML measurements
+            //Preventing measure calculations, accomodating for initial erroneous XML measurements
             if (mIndividualHeight == getChildAt(0).getMeasuredHeight()) {
                 mConstantsInitiated = true;
             }
@@ -124,7 +123,6 @@ public class CustomRelativeLayout extends RelativeLayout {
         rl.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Decide if the button should expand or contract
                 if (mShouldExpand) {
                     onExpandClick(rl);
                 } else {
@@ -134,14 +132,30 @@ public class CustomRelativeLayout extends RelativeLayout {
         });
     }
 
-    private void onExpandClick(CustomChildLayout rl) {
-        rl.bringToFront();
-        mSelectedViewPos = rl.getViewPosition();
-        ExpandAnimation expandAnim = new ExpandAnimation(this, rl);
-        rl.startAnimation(expandAnim);
+    private void onExpandClick(final CustomChildLayout ccl) {
+        //Set Z-index to top
+        ccl.bringToFront();
+        mSelectedViewPos = ccl.getViewPosition();
+        ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, new ExpandAnimation.AnimationEndListener() {
+            @Override
+            public void onAnimationEnd() {
+                showDetails(ccl);
+            }
+        });
+        ccl.startAnimation(expandAnim);
 
-        //Toggle button functionality
         mShouldExpand = false;
+    }
+
+    private void showDetails(CustomChildLayout ccl){
+        //Work in progress
+//        LayoutInflater inflater = (LayoutInflater)   getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        RelativeLayout detailsLayout = (RelativeLayout)inflater.inflate(ccl.getLayout(), null);
+//        RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        params.addRule(BELOW, ccl.TITLE_VIEW_ID);
+//        detailsLayout.setLayoutParams(params);
+//        ccl.addView(detailsLayout);
+//        Log.d("blahblah", String.format("ccl height: %d, measured Height: %d", ccl.getLayoutParams().height, ccl.getMeasuredHeight()));
     }
 
     private void onContractClick(CustomChildLayout rl) {
@@ -153,7 +167,6 @@ public class CustomRelativeLayout extends RelativeLayout {
         });
         rl.startAnimation(contractAnim);
 
-        //Toggle button functionality
         mShouldExpand = true;
     }
 
@@ -200,6 +213,8 @@ public class CustomRelativeLayout extends RelativeLayout {
                 CustomChildLayout rlChild = (CustomChildLayout) getChildAt(i);
 
                 int childHeight = mIndividualHeight;
+
+                //Extend the last item's size if mTotalHeight isn't evenly divisible
                 if (i == getChildCount() - 1)
                     childHeight += mHeightRemainder;
 
@@ -212,8 +227,6 @@ public class CustomRelativeLayout extends RelativeLayout {
 
                 //Layout the child layout within this one
                 rlChild.layout(0, mPositionsArray[i], mTotalWidth, mPositionsArray[i] + childHeight);
-
-
             }
         } else /* A child layout has been selected */ {
             layoutUnselectedLayouts();

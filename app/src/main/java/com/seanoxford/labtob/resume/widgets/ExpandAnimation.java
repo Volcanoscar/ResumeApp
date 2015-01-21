@@ -1,19 +1,22 @@
 package com.seanoxford.labtob.resume.widgets;
 
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.seanoxford.labtob.resume.customviews.CustomChildLayout;
 import com.seanoxford.labtob.resume.customviews.CustomImageView;
 import com.seanoxford.labtob.resume.customviews.CustomRelativeLayout;
 
-/**
- * Created by labtob on 1/5/2015.
- */
 public class ExpandAnimation extends Animation {
+
+    public interface AnimationEndListener{
+        void onAnimationEnd();
+    }
 
     protected int[] mTopDimensions;
 
@@ -36,12 +39,10 @@ public class ExpandAnimation extends Animation {
     protected boolean mToggle = true;
     protected boolean mIsMiddleView = false;
 
+    protected AnimationEndListener mListener;
 
-
-
-
-
-    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout){
+    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, AnimationEndListener listener){
+        mListener = listener;
         mCustomRelativeLayout = customRelativeLayout;
         mCustomChildLayout = customChildLayout;
         mCustomImageView = (CustomImageView) mCustomChildLayout.getChildAt(CustomChildLayout.CUSTOMIMAGEVIEW_POSITION);
@@ -64,7 +65,8 @@ public class ExpandAnimation extends Animation {
 
         mTopDimensions = customRelativeLayout.mPositionsArray;
         mPreviousHeight = mCustomChildLayout.getMeasuredHeight();
-
+        setFillEnabled(true);
+        setFillAfter(true);
         setDuration(600);
         setInterpolator(new AccelerateDecelerateInterpolator());
         setAnimationListener(new AnimationListener() {
@@ -79,6 +81,7 @@ public class ExpandAnimation extends Animation {
                 mPreviousHeight = mCustomChildLayout.getMeasuredHeight();
                 mIncrementedDownwardTransition = 0;
                 mIncrementedUpwardTransition = 0f;
+                mListener.onAnimationEnd();
             }
 
             @Override
@@ -98,31 +101,30 @@ public class ExpandAnimation extends Animation {
         float upwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mUpwardDivisor : 0;
         float downwardTransitionIncrement = mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1 ? (float) heightDelta / mDownwardDivisor : 0;
 
+        Log.d("jjj", String.format("measuredHeight: %d, mCurrentHeight: %d, currentHeight: %d, heightDelta %d", mCustomRelativeLayout.getMeasuredHeight(), mTotalHeight, currentHeight, heightDelta));
+        Log.d("jjj", String.format("mUpwardDivisor: %f, upwardTransistionIncrement: %f, incrementedUpwardTransition: %f, mDownwardDivisor: %f, downwardTransitionIncrement: %f, mIncrementedDownwardTransition: %f", mUpwardDivisor, upwardTransitionIncrement, mIncrementedUpwardTransition, mDownwardDivisor, downwardTransitionIncrement, mIncrementedDownwardTransition));
+
         mIncrementedUpwardTransition -= upwardTransitionIncrement;
         mIncrementedDownwardTransition += downwardTransitionIncrement;
 
-        Log.d("iii", String.format("up: %f, upIncrement: %f, down: %f, downIncrement: %f, time: %f", mIncrementedUpwardTransition, upwardTransitionIncrement, mIncrementedDownwardTransition, downwardTransitionIncrement, interpolatedTime));
-
-        //TODO sometimes shit doesn't go to top all the way
         if(interpolatedTime == 1) {
-            Log.d("jjj", "height remainder: " + mCustomRelativeLayout.getHeightRemainder());
             mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
+//            mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
             int topIncrement;
             int bottomIncrement;
 
+            //When there is an odd number of items on the screen, the center one has an issue in expansion calculation which makes the animation jerky.
+            //Alternating between rounding and flooring the floats smooths this out
             if(!mIsMiddleView){
-                Log.d("juj", "normal");
                 topIncrement = Math.round(mIncrementedUpwardTransition);
                 bottomIncrement = Math.round(mIncrementedDownwardTransition);
             } else if(!mToggle && mIsMiddleView) {
-                Log.d("juj", "toggle 1");
                 topIncrement = Math.round(mIncrementedUpwardTransition);
                 bottomIncrement = (int) mIncrementedDownwardTransition;
                 mToggle = true;
             } else {
-                Log.d("juj", "toggle 2");
                 topIncrement = (int) mIncrementedUpwardTransition;
                 bottomIncrement = Math.round(mIncrementedDownwardTransition);
                 mToggle = false;
@@ -131,7 +133,6 @@ public class ExpandAnimation extends Animation {
             mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()] + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
         }
-
         mPreviousHeight = currentHeight;
     }
 }

@@ -4,49 +4,43 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.seanoxford.labtob.resume.widgets.MatrixHelper;
 
-/**
- * Created by labtob on 12/7/2014.
- */
-
 public class CustomImageView extends ImageView {
 
     public static final int VALUE_UNSET = -1;
 
-    protected float mWidthPercent = 0;
-    protected float mHeightPercent = -1;
+    protected float mHeightPercent = VALUE_UNSET;
     protected String mHexColorOverlay;
-    protected int mOrder = -1;
-    protected CustomImageView theCustomImageView;
+    protected int mParentOrder = VALUE_UNSET;
     protected MatrixHelper mMatrixHelper = null;
-    protected int previousHeight = 218;
-    protected int incrementedHeight = 436;
-    protected int currentHeight = 0;
     protected boolean mScaleToFill = true;
 
-
-    protected Matrix mMatrix = null;
     protected Context mContext;
 
     protected CustomRelativeLayout mGrandParentLayout;
     protected RelativeLayout mParentLayout;
     protected boolean mHasBeenResized = false;
+    protected int mHeightDeltaOffset = 0;
+    protected boolean mAlignImageBottom = false;
 
 
-    public void setOrder(int order) {
-        mOrder = order;
+    public void setParentOrder(int order) {
+        mParentOrder = order;
     }
 
-    public int getOrder() {
-        return mOrder;
+    public void alignImageBottomOnResize(boolean alignBottom){
+        mAlignImageBottom = alignBottom;
+    }
+
+    public int getParentOrder() {
+        return mParentOrder;
     }
 
     public void setContext(Context context) {
@@ -91,8 +85,6 @@ public class CustomImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        setMatrix();
-        //TODO set color options
         if (mHexColorOverlay != null)
             canvas.drawColor(Color.parseColor(mHexColorOverlay));
     }
@@ -109,6 +101,7 @@ public class CustomImageView extends ImageView {
     }
 
     private void scaleToFill() {
+        //Grow bitmap to match_parent if resource isn't large enough; Toggleable.
         Bitmap bm = ((BitmapDrawable) getDrawable()).getBitmap();
         int bitmapHeight = bm.getHeight();
         int bitmapWidth = bm.getWidth();
@@ -138,8 +131,33 @@ public class CustomImageView extends ImageView {
                 newWidth = (parentHeight / bitmapHeight) * bitmapWidth;
             }
             setImageBitmap(Bitmap.createScaledBitmap(bm, newWidth, newHeight, true));
-        }
+        } else if(widthDelta < 0 || heightDelta < 0) {
+                int newWidth = parentWidth;
+                int newHeight = parentHeight;
 
+                if (widthDelta < 0 && heightDelta < 0) {
+                    if (widthDelta > heightDelta) {
+                        if(mAlignImageBottom)
+                            mHeightDeltaOffset = heightDelta * -1;
+                        newWidth = parentWidth;
+                        newHeight = (bitmapWidth / parentWidth) * bitmapHeight;
+                    } else {
+                        newHeight = parentHeight;
+                        newWidth = (bitmapHeight / parentHeight) * bitmapWidth;
+                    }
+                } else if (widthDelta < 0) {
+                    if(mAlignImageBottom)
+                        mHeightDeltaOffset = heightDelta * -1;
+                    newWidth = parentWidth;
+                    newHeight = (bitmapWidth / parentWidth) * bitmapHeight;
+                } else if (heightDelta < 0) {
+                    newHeight = parentHeight;
+                    newWidth = (bitmapHeight / parentHeight) * bitmapWidth;
+                }
+
+            Log.d("butts", String.format("bitmapWidth: %d, parentWidth: %d, bitmapHieght: %d, parentHeight: %d. widthDelta: %d, heightDelta: %d, newWidth: %d, newHeight: %d",bitmapWidth, parentWidth, bitmapHeight, parentHeight, widthDelta, heightDelta, newWidth, newHeight));
+                setImageBitmap(Bitmap.createScaledBitmap(bm, newWidth, newHeight, true));
+        }
         mHasBeenResized = true;
     }
 
@@ -148,7 +166,7 @@ public class CustomImageView extends ImageView {
     public void setMatrix() {
         if (mMatrixHelper == null) {
             //Used to cache some values for the matrix calculations
-            mMatrixHelper = new MatrixHelper(this, mHeightPercent, mGrandParentLayout.getTotalHeight());
+            mMatrixHelper = new MatrixHelper(this, mHeightPercent, mGrandParentLayout.getTotalHeight(), mHeightDeltaOffset);
         }
         setImageMatrix(mMatrixHelper.matrixIt());
     }
