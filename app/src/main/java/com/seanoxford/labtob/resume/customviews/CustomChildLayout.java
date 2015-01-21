@@ -48,18 +48,18 @@ public class CustomChildLayout extends RelativeLayout {
         if(layout != 0)
             mLayout = layout;
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        CustomImageView civ = new CustomImageView(mContext);
-        civ.setImageResource(image);
-        civ.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        civ.setColor(color);
-        addView(civ);
-        TextView title = new TextView(mContext);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
-        title.setText(text);
-        title.setTextColor(Color.parseColor("#FFFFFF"));
-        title.setTypeface(typeface);
-        title.setId(TITLE_VIEW_ID);
-        addView(title);
+        mImageView = new CustomImageView(mContext);
+        mImageView.setImageResource(image);
+        mImageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mImageView.setColor(color);
+        addView(mImageView);
+        mTitle = new TextView(mContext);
+        mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
+        mTitle.setText(text);
+        mTitle.setTextColor(Color.parseColor("#FFFFFF"));
+        mTitle.setTypeface(typeface);
+        mTitle.setId(TITLE_VIEW_ID);
+        addView(mTitle);
     }
 
     private void init(){

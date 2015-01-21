@@ -59,9 +59,6 @@ public class MatrixHelper {
             xOffset = mWidthPercent * (drawableWidth - viewToDrawableWidth);
         float yOffset = Math.round((mHeightPercent * (drawableHeight - viewToDrawableHeight)) + mHeightDeltaOffset);
 
-
-
-
         RectF drawableRect = new RectF(xOffset, yOffset, xOffset + viewToDrawableWidth,
                 yOffset + viewToDrawableHeight);
 

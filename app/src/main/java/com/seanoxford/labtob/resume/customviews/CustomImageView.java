@@ -155,7 +155,6 @@ public class CustomImageView extends ImageView {
                     newWidth = (bitmapHeight / parentHeight) * bitmapWidth;
                 }
 
-            Log.d("butts", String.format("bitmapWidth: %d, parentWidth: %d, bitmapHieght: %d, parentHeight: %d. widthDelta: %d, heightDelta: %d, newWidth: %d, newHeight: %d",bitmapWidth, parentWidth, bitmapHeight, parentHeight, widthDelta, heightDelta, newWidth, newHeight));
                 setImageBitmap(Bitmap.createScaledBitmap(bm, newWidth, newHeight, true));
         }
         mHasBeenResized = true;

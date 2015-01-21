@@ -101,9 +101,6 @@ public class ExpandAnimation extends Animation {
         float upwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mUpwardDivisor : 0;
         float downwardTransitionIncrement = mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1 ? (float) heightDelta / mDownwardDivisor : 0;
 
-        Log.d("jjj", String.format("measuredHeight: %d, mCurrentHeight: %d, currentHeight: %d, heightDelta %d", mCustomRelativeLayout.getMeasuredHeight(), mTotalHeight, currentHeight, heightDelta));
-        Log.d("jjj", String.format("mUpwardDivisor: %f, upwardTransistionIncrement: %f, incrementedUpwardTransition: %f, mDownwardDivisor: %f, downwardTransitionIncrement: %f, mIncrementedDownwardTransition: %f", mUpwardDivisor, upwardTransitionIncrement, mIncrementedUpwardTransition, mDownwardDivisor, downwardTransitionIncrement, mIncrementedDownwardTransition));
-
         mIncrementedUpwardTransition -= upwardTransitionIncrement;
         mIncrementedDownwardTransition += downwardTransitionIncrement;
 
