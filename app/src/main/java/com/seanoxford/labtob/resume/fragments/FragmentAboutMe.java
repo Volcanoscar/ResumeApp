@@ -14,8 +14,7 @@ import com.seanoxford.labtob.resume.customviews.CustomRelativeLayout;
 
 public class FragmentAboutMe extends Fragment {
 
-
-    BaseActivity mParentActivity;
+    protected BaseActivity mParentActivity;
 
 
     @Override

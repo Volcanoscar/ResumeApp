@@ -23,16 +23,17 @@ public class CustomRelativeLayout extends RelativeLayout {
     private static final int DEFAULT_MENU_POSITION = -1;
 
     public int[] mPositionsArray;
-
-    protected boolean mShouldExpand = true;
-    protected boolean mConstantsInitiated = false;
-
     protected int mSelectedViewPos = DEFAULT_MENU_POSITION;
     protected int mChildCount = 0;
     protected int mTotalHeight = -1;
     protected int mTotalWidth = -1;
     protected int mIndividualHeight = -1;
     protected int mHeightRemainder = 0;
+
+    protected boolean mShouldExpand = true;
+    protected boolean mConstantsInitiated = false;
+
+
 
 
     public CustomRelativeLayout(Context context) {

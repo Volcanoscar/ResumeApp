@@ -16,19 +16,18 @@ public class CustomImageView extends ImageView {
 
     public static final int VALUE_UNSET = -1;
 
-    protected float mHeightPercent = VALUE_UNSET;
-    protected String mHexColorOverlay;
-    protected int mParentOrder = VALUE_UNSET;
-    protected MatrixHelper mMatrixHelper = null;
+    protected boolean mHasBeenResized = false;
+    protected boolean mAlignImageBottom = false;
     protected boolean mScaleToFill = true;
+    protected int mHeightDeltaOffset = 0;
+    protected int mParentOrder = VALUE_UNSET;
+    protected float mHeightPercent = VALUE_UNSET;
 
+    protected String mHexColorOverlay;
+    protected MatrixHelper mMatrixHelper = null;
     protected Context mContext;
-
     protected CustomRelativeLayout mGrandParentLayout;
     protected RelativeLayout mParentLayout;
-    protected boolean mHasBeenResized = false;
-    protected int mHeightDeltaOffset = 0;
-    protected boolean mAlignImageBottom = false;
 
 
     public void setParentOrder(int order) {
@@ -159,8 +158,6 @@ public class CustomImageView extends ImageView {
         }
         mHasBeenResized = true;
     }
-
-
 
     public void setMatrix() {
         if (mMatrixHelper == null) {

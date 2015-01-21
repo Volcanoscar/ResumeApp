@@ -19,25 +19,25 @@ public class ExpandAnimation extends Animation {
     }
 
     protected int[] mTopDimensions;
-
-    protected CustomRelativeLayout mCustomRelativeLayout;
-    protected CustomChildLayout mCustomChildLayout;
-    protected CustomImageView mCustomImageView;
-    protected TextView mSelectedLayoutTitle;
-
     protected int mTotalHeight;
     protected int mIndividualHeight;
     protected int mPreviousHeight = 0;
+    protected int mTextTitlePosition;
 
     protected float mIncrementedUpwardTransition;
     protected float mIncrementedDownwardTransition;
     protected float mUpwardDivisor = 0;
     protected float mDownwardDivisor = 0;
 
-    protected int mTextTitlePosition;
-
     protected boolean mToggle = true;
     protected boolean mIsMiddleView = false;
+
+    protected CustomRelativeLayout mCustomRelativeLayout;
+    protected CustomChildLayout mCustomChildLayout;
+    protected CustomImageView mCustomImageView;
+    protected TextView mSelectedLayoutTitle;
+
+
 
     protected AnimationEndListener mListener;
 

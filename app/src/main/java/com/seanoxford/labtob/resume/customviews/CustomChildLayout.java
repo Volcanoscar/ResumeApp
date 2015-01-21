@@ -20,10 +20,10 @@ public class CustomChildLayout extends RelativeLayout {
     public static final int TITLE_POSITION = 1;
     public static final int TITLE_VIEW_ID = 1;
 
-    protected Integer mViewPosition;
     protected CustomImageView mImageView;
     protected TextView mTitle;
     protected Context mContext;
+    protected Integer mViewPosition;
     protected Integer mTitleTextCenter;
     protected int mLayout;
 
