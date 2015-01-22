@@ -1,22 +1,12 @@
-package com.seanoxford.labtob.resume.customviews;
+package com.seanoxford.resume.customviews;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.Transformation;
 import android.widget.RelativeLayout;
 
-import com.seanoxford.labtob.resume.widgets.ContractAnimation;
-import com.seanoxford.labtob.resume.widgets.ExpandAnimation;
-
-import java.util.zip.Inflater;
+import com.seanoxford.resume.widgets.ContractAnimation;
+import com.seanoxford.resume.widgets.ExpandAnimation;
 
 public class CustomRelativeLayout extends RelativeLayout {
 

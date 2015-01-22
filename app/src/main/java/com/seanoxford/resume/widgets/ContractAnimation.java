@@ -1,16 +1,13 @@
-package com.seanoxford.labtob.resume.widgets;
+package com.seanoxford.resume.widgets;
 
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.TextView;
 
-import com.seanoxford.labtob.resume.customviews.CustomChildLayout;
-import com.seanoxford.labtob.resume.customviews.CustomImageView;
-import com.seanoxford.labtob.resume.customviews.CustomRelativeLayout;
+import com.seanoxford.resume.customviews.CustomChildLayout;
+import com.seanoxford.resume.customviews.CustomImageView;
+import com.seanoxford.resume.customviews.CustomRelativeLayout;
 
-/**
- * Created by labtob on 1/14/2015.
- */
 public class ContractAnimation extends Animation {
 
     public interface Listener{

@@ -1,11 +1,8 @@
-package com.seanoxford.labtob.resume.activities;
+package com.seanoxford.resume.activities;
 
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 
-/**
- * Created by labtob on 12/9/2014.
- */
 public abstract class BaseActivity extends FragmentActivity {
 
     public Typeface getRobotoBlack(){

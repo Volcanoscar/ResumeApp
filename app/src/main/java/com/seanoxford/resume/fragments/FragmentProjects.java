@@ -1,4 +1,4 @@
-package com.seanoxford.labtob.resume.fragments;
+package com.seanoxford.resume.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.seanoxford.labtob.resume.R;
+import com.seanoxford.resume.R;
 
-/**
- * Created by labtob on 12/6/2014.
- */
+
 public class FragmentProjects extends Fragment {
 
     @Override

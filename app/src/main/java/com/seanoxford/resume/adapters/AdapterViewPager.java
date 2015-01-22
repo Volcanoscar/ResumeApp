@@ -1,17 +1,13 @@
-package com.seanoxford.labtob.resume.adapters;
+package com.seanoxford.resume.adapters;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.seanoxford.labtob.resume.fragments.FragmentAboutMe;
-import com.seanoxford.labtob.resume.fragments.FragmentGuestBook;
-import com.seanoxford.labtob.resume.fragments.FragmentProjects;
-
-/**
- * Created by labtob on 12/6/2014.
- */
+import com.seanoxford.resume.fragments.FragmentAboutMe;
+import com.seanoxford.resume.fragments.FragmentGuestBook;
+import com.seanoxford.resume.fragments.FragmentProjects;
 public class AdapterViewPager extends FragmentStatePagerAdapter {
 
 

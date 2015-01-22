@@ -1,4 +1,4 @@
-package com.seanoxford.labtob.resume.fragments;
+package com.seanoxford.resume.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.seanoxford.labtob.resume.R;
-import com.seanoxford.labtob.resume.activities.BaseActivity;
-import com.seanoxford.labtob.resume.customviews.CustomChildLayout;
-import com.seanoxford.labtob.resume.customviews.CustomRelativeLayout;
+import com.seanoxford.resume.R;
+import com.seanoxford.resume.activities.BaseActivity;
+import com.seanoxford.resume.customviews.CustomChildLayout;
+import com.seanoxford.resume.customviews.CustomRelativeLayout;
 
 public class FragmentAboutMe extends Fragment {
 
@@ -26,7 +26,6 @@ public class FragmentAboutMe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_about, null);
-
         CustomRelativeLayout view = (CustomRelativeLayout) v.findViewById(R.id.ll_about_me);
 
         CustomChildLayout ccl = new CustomChildLayout(mParentActivity, R.layout.relative_layout_contact, "Contact", "#8099cc00", R.drawable.contact_photo, mParentActivity.getRobotoLight());

@@ -1,16 +1,13 @@
-package com.seanoxford.labtob.resume.widgets;
+package com.seanoxford.resume.widgets;
 
-import android.util.Log;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.seanoxford.labtob.resume.customviews.CustomChildLayout;
-import com.seanoxford.labtob.resume.customviews.CustomImageView;
-import com.seanoxford.labtob.resume.customviews.CustomRelativeLayout;
+import com.seanoxford.resume.customviews.CustomChildLayout;
+import com.seanoxford.resume.customviews.CustomImageView;
+import com.seanoxford.resume.customviews.CustomRelativeLayout;
 
 public class ExpandAnimation extends Animation {
 

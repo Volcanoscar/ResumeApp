@@ -1,15 +1,13 @@
-package com.seanoxford.labtob.resume.activities;
+package com.seanoxford.resume.activities;
 
-import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.seanoxford.labtob.resume.R;
-import com.seanoxford.labtob.resume.adapters.AdapterViewPager;
+import com.seanoxford.resume.R;
+import com.seanoxford.resume.adapters.AdapterViewPager;
 
 
 public class ActivityMain extends BaseActivity{

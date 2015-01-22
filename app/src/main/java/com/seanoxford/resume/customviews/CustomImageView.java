@@ -1,4 +1,4 @@
-package com.seanoxford.labtob.resume.customviews;
+package com.seanoxford.resume.customviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,11 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.seanoxford.labtob.resume.widgets.MatrixHelper;
+import com.seanoxford.resume.widgets.MatrixHelper;
 
 public class CustomImageView extends ImageView {
 
