@@ -3,11 +3,20 @@ package com.seanoxford.resume.customviews;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.seanoxford.resume.R;
+import com.seanoxford.resume.subfragments.SubFragmentContact;
 
 public class CustomChildLayout extends RelativeLayout {
 
@@ -17,10 +26,14 @@ public class CustomChildLayout extends RelativeLayout {
 
     protected CustomImageView mImageView;
     protected TextView mTitle;
+    protected RelativeLayout mDetailsLayout;
+    protected FragmentManager mFragmentManager;
+
     protected Context mContext;
     protected Integer mViewPosition;
     protected Integer mTitleTextCenter;
     protected int mLayout;
+    protected boolean mIsExpanded = false;
 
     public CustomChildLayout(Context context) {
         super(context);
@@ -37,17 +50,35 @@ public class CustomChildLayout extends RelativeLayout {
         init();
     }
 
-    public CustomChildLayout(Context context, int layout, String text, String color, int image, Typeface typeface){
+    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, FragmentManager fragmentManager){
+        super(context);
+        mContext = context;
+        mFragmentManager = fragmentManager;
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        initImageView(image, color);
+        initTitle(text, typeface);
+    }
+
+    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, int layout){
         super(context);
         mContext = context;
         if(layout != 0)
             mLayout = layout;
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        initImageView(image, color);
+        initTitle(text, typeface);
+
+    }
+
+    private void initImageView(int image, String color){
         mImageView = new CustomImageView(mContext);
         mImageView.setImageResource(image);
         mImageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mImageView.setColor(color);
         addView(mImageView);
+    }
+
+    private void initTitle(String text, Typeface typeface){
         mTitle = new TextView(mContext);
         mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
         mTitle.setText(text);
@@ -60,6 +91,38 @@ public class CustomChildLayout extends RelativeLayout {
     private void init(){
         mImageView = (CustomImageView) getChildAt(CUSTOMIMAGEVIEW_POSITION);
         mTitle = (TextView) getChildAt(TITLE_POSITION);
+    }
+
+    public void onExpanded(){
+        mIsExpanded = true;
+        //To position added fragment within parent
+//        if(mFragmentManager != null) {
+//            mDetailsLayout = new RelativeLayout(mContext);
+//            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            params.addRule(BELOW, TITLE_VIEW_ID);
+//            mDetailsLayout.setLayoutParams(params);
+//
+//            FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+//
+//            mDetailsLayout.setId(777);
+//
+//            Fragment myFrag = new SubFragmentContact();
+//            fragTransaction.add(mDetailsLayout.getId(), myFrag, "fragget");
+//            fragTransaction.commit();
+//            addView(mDetailsLayout);
+//        } else {
+//            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            mDetailsLayout = (RelativeLayout)  inflater.inflate(getLayout(), null);
+//            RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            params.addRule(BELOW, TITLE_VIEW_ID);
+//            mDetailsLayout.setLayoutParams(params);
+//            addView(mDetailsLayout);
+//        }
+    }
+
+    public void onCollapse(){
+//        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
+//        mDetailsLayout.setVisibility(View.GONE);
     }
 
     public int getViewPosition(){

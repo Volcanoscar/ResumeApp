@@ -1,7 +1,10 @@
 package com.seanoxford.resume.widgets;
 
+import android.util.Log;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.seanoxford.resume.customviews.CustomChildLayout;
@@ -89,13 +92,16 @@ public class ContractAnimation extends Animation {
 
 
         if(interpolatedTime == 1) {
-            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()], mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight());
-            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight());
+//            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()], mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight());
+//            Log.d("nnn", String.format("measuredHeight: %d", mCustomChildLayout.getMeasuredHeight()));
+//            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight());
+            mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 222));
+//            cancel();
         } else {
             int topIncrement = Math.round(mIncrementedDownwardTransition);
             int bottomIncrement = Math.round(mIncrementedUpwardTransition);
 
-            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()] + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
+            mCustomChildLayout.layout(0, 0 + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
         }
 

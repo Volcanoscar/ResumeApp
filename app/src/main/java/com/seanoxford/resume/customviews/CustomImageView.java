@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -26,7 +27,7 @@ public class CustomImageView extends ImageView {
     protected MatrixHelper mMatrixHelper = null;
     protected Context mContext;
     protected CustomRelativeLayout mGrandParentLayout;
-    protected RelativeLayout mParentLayout;
+    protected CustomChildLayout mParentLayout;
 
 
     public void setParentOrder(int order) {
@@ -90,7 +91,7 @@ public class CustomImageView extends ImageView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mGrandParentLayout = (CustomRelativeLayout) getParent().getParent();
-        mParentLayout = (RelativeLayout) getParent();
+        mParentLayout = (CustomChildLayout) getParent();
         if (!mHasBeenResized && mScaleToFill)
             scaleToFill();
 
@@ -159,6 +160,7 @@ public class CustomImageView extends ImageView {
     }
 
     public void setMatrix() {
+        Log.d("nnn", String.format("parentLayout: %d", mParentLayout.getViewPosition()));
         if (mMatrixHelper == null) {
             //Used to cache some values for the matrix calculations
             mMatrixHelper = new MatrixHelper(this, mHeightPercent, mGrandParentLayout.getTotalHeight(), mHeightDeltaOffset);

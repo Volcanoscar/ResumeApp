@@ -19,15 +19,12 @@ public class ActivityMain extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mViewPager = (ViewPager) findViewById(R.id.vp_main);
         mViewPager.setAdapter(new AdapterViewPager(getSupportFragmentManager()));
 
 
         PagerSlidingTabStrip pageSliderWidget = (PagerSlidingTabStrip) findViewById(R.id.widget_tabs);
         pageSliderWidget.setViewPager(mViewPager);
-
-
     }
 
 

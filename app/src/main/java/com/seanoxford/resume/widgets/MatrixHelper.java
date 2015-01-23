@@ -2,6 +2,7 @@ package com.seanoxford.resume.widgets;
 
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.seanoxford.resume.customviews.CustomImageView;
 
@@ -60,6 +61,7 @@ public class MatrixHelper {
         RectF viewRect = new RectF(0, 0, mViewWidth, viewHeight);
 
         matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.FILL);
+        Log.d("nnn", String.format("yOffset: %f, viewToDrawableHeight: %f, drawableHeight: %d, mHeightPercentage: %f", yOffset, viewToDrawableHeight, mDrawableHeight, mHeightPercent));
 
         return matrix;
     }

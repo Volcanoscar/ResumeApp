@@ -1,10 +1,17 @@
 package com.seanoxford.resume.customviews;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.seanoxford.resume.subfragments.SubFragmentContact;
 import com.seanoxford.resume.widgets.ContractAnimation;
 import com.seanoxford.resume.widgets.ExpandAnimation;
 
@@ -22,6 +29,9 @@ public class CustomRelativeLayout extends RelativeLayout {
 
     protected boolean mShouldExpand = true;
     protected boolean mConstantsInitiated = false;
+
+    ExpandAnimation expandAnim;
+    int[] cords =  new int[4];
 
 
 
@@ -75,9 +85,7 @@ public class CustomRelativeLayout extends RelativeLayout {
                     mHeightRemainder = getMeasuredHeight() - mTotalHeight;
                 else
                     mHeightRemainder = 0;
-
             }
-
 
             //Incremented int to set the values of increments
             int tempHeight = 0;
@@ -130,33 +138,28 @@ public class CustomRelativeLayout extends RelativeLayout {
         ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, new ExpandAnimation.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
-                showDetails(ccl);
+                ccl.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                ccl.onExpanded();
             }
+
         });
         ccl.startAnimation(expandAnim);
 
         mShouldExpand = false;
     }
 
-    private void showDetails(CustomChildLayout ccl){
-        //Work in progress
-//        LayoutInflater inflater = (LayoutInflater)   getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        RelativeLayout detailsLayout = (RelativeLayout)inflater.inflate(ccl.getLayout(), null);
-//        RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        params.addRule(BELOW, ccl.TITLE_VIEW_ID);
-//        detailsLayout.setLayoutParams(params);
-//        ccl.addView(detailsLayout);
-//        Log.d("blahblah", String.format("ccl height: %d, measured Height: %d", ccl.getLayoutParams().height, ccl.getMeasuredHeight()));
-    }
-
-    private void onContractClick(CustomChildLayout rl) {
-        ContractAnimation contractAnim = new ContractAnimation(this, rl, new ContractAnimation.Listener() {
+    private void onContractClick(final CustomChildLayout ccl) {
+        //sets visibility gone
+        ccl.onCollapse();
+        ContractAnimation contractAnim = new ContractAnimation(this, ccl, new ContractAnimation.Listener() {
             @Override
             public void onContractFinish() {
+                Log.d("nnn", "contractFinished");
                 resetButtons();
+//                ccl.requestLayout();
             }
         });
-        rl.startAnimation(contractAnim);
+        ccl.startAnimation(contractAnim);
 
         mShouldExpand = true;
     }

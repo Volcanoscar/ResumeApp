@@ -1,8 +1,11 @@
 package com.seanoxford.resume.widgets;
 
+import android.util.Log;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.seanoxford.resume.customviews.CustomChildLayout;
@@ -104,7 +107,6 @@ public class ExpandAnimation extends Animation {
         if(interpolatedTime == 1) {
             mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
-//            mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
             int topIncrement;
             int bottomIncrement;
