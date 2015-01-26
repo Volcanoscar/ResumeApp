@@ -96,33 +96,38 @@ public class CustomChildLayout extends RelativeLayout {
     public void onExpanded(){
         mIsExpanded = true;
         //To position added fragment within parent
-//        if(mFragmentManager != null) {
-//            mDetailsLayout = new RelativeLayout(mContext);
-//            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            params.addRule(BELOW, TITLE_VIEW_ID);
-//            mDetailsLayout.setLayoutParams(params);
-//
-//            FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-//
-//            mDetailsLayout.setId(777);
-//
-//            Fragment myFrag = new SubFragmentContact();
-//            fragTransaction.add(mDetailsLayout.getId(), myFrag, "fragget");
-//            fragTransaction.commit();
-//            addView(mDetailsLayout);
-//        } else {
-//            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            mDetailsLayout = (RelativeLayout)  inflater.inflate(getLayout(), null);
-//            RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//            params.addRule(BELOW, TITLE_VIEW_ID);
-//            mDetailsLayout.setLayoutParams(params);
-//            addView(mDetailsLayout);
-//        }
+        if(mFragmentManager != null) {
+            if(mDetailsLayout == null) {
+                mDetailsLayout = new RelativeLayout(mContext);
+                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.addRule(BELOW, TITLE_VIEW_ID);
+                mDetailsLayout.setLayoutParams(params);
+
+                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+
+                mDetailsLayout.setId(777);
+
+                Fragment myFrag = new SubFragmentContact();
+                fragTransaction.add(mDetailsLayout.getId(), myFrag, "fragget");
+                fragTransaction.commit();
+                addView(mDetailsLayout);
+            } else{
+                mDetailsLayout.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mDetailsLayout = (RelativeLayout)  inflater.inflate(getLayout(), null);
+            RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.addRule(BELOW, TITLE_VIEW_ID);
+            mDetailsLayout.setLayoutParams(params);
+            addView(mDetailsLayout);
+        }
     }
 
     public void onCollapse(){
-//        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
-//        mDetailsLayout.setVisibility(View.GONE);
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
+        mDetailsLayout.setVisibility(View.GONE);
     }
 
     public int getViewPosition(){
