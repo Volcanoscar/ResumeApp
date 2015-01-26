@@ -138,6 +138,10 @@ public class CustomChildLayout extends RelativeLayout {
         mViewPosition = n;
     }
 
+    public void setScaleToFill(boolean toScale){
+        mImageView.setScaleToFill(toScale);
+    }
+
     public int getLayout(){
         return mLayout;
     }

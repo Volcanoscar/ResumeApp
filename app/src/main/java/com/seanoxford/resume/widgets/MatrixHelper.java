@@ -46,6 +46,8 @@ public class MatrixHelper {
             else
                 mScale = (float) mViewWidth / (float) mDrawableWidth;
 
+        mScale = 1;
+
 
         if(mViewToDrawableWidth == -1)
             mViewToDrawableWidth = mViewWidth / mScale;

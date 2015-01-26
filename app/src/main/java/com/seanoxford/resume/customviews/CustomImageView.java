@@ -110,6 +110,9 @@ public class CustomImageView extends ImageView {
         int widthDelta = parentWidth - bitmapWidth;
         int heightDelta = parentHeight - bitmapHeight;
 
+        Log.d("xxx", String.format("bmh: %d, bmw: %d, ph: %d, pw: %d, wD: %d, hd: %d", bitmapHeight, bitmapWidth, parentHeight, parentWidth, widthDelta, heightDelta));
+
+
         if (widthDelta > 0 || heightDelta > 0) {
             int newWidth = bitmapWidth;
             int newHeight = bitmapHeight;
@@ -117,10 +120,10 @@ public class CustomImageView extends ImageView {
             if (widthDelta > 0 && heightDelta > 0) {
                 if (widthDelta > heightDelta) {
                     newWidth = parentWidth;
-                    newHeight = (parentWidth / bitmapWidth) * bitmapHeight;
+                    newHeight = (parentWidth / bitmapWidth) * parentHeight;
                 } else {
                     newHeight = parentHeight;
-                    newWidth = (parentHeight / bitmapHeight) * bitmapWidth;
+                    newWidth = (parentHeight / bitmapHeight) * parentWidth;
                 }
             } else if (widthDelta > 0) {
                 newWidth = parentWidth;

@@ -103,13 +103,13 @@ public class ContractAnimation extends Animation {
             int bottomIncrement = Math.round(mIncrementedUpwardTransition);
 
 
-            if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1) {
-                mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement );
-                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
-            } else {
+//            if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1) {
+//                mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement );
+//                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
+//            } else {
                 mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
                 mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
-            }
+//            }
 
 
 //            mCustomChildLayout.layout(0, 0 + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
