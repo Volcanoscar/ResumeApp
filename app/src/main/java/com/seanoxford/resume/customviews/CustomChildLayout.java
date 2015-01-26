@@ -23,6 +23,7 @@ public class CustomChildLayout extends RelativeLayout {
     public static final int CUSTOMIMAGEVIEW_POSITION = 0;
     public static final int TITLE_POSITION = 1;
     public static final int TITLE_VIEW_ID = 1;
+    private static final int FRAGMENT_WRAPPER_ID = 2;
 
     protected CustomImageView mImageView;
     protected TextView mTitle;
@@ -105,7 +106,7 @@ public class CustomChildLayout extends RelativeLayout {
 
                 FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 
-                mDetailsLayout.setId(777);
+                mDetailsLayout.setId(FRAGMENT_WRAPPER_ID);
 
                 Fragment myFrag = new SubFragmentContact();
                 fragTransaction.add(mDetailsLayout.getId(), myFrag, "fragget");
@@ -126,7 +127,6 @@ public class CustomChildLayout extends RelativeLayout {
     }
 
     public void onCollapse(){
-//        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
         mDetailsLayout.setVisibility(View.GONE);
     }
 

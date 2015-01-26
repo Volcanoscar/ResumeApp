@@ -81,10 +81,7 @@ public class CustomRelativeLayout extends RelativeLayout {
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
-//                if(mTotalHeight < getMeasuredHeight())
                     mHeightRemainder = getMeasuredHeight() - mTotalHeight;
-//                else
-//                    mHeightRemainder = 0;
             }
 
             //Incremented int to set the values of increments

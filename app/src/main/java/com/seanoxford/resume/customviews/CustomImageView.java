@@ -110,7 +110,6 @@ public class CustomImageView extends ImageView {
         int widthDelta = parentWidth - bitmapWidth;
         int heightDelta = parentHeight - bitmapHeight;
 
-        Log.d("xxx", String.format("bmh: %d, bmw: %d, ph: %d, pw: %d, wD: %d, hd: %d", bitmapHeight, bitmapWidth, parentHeight, parentWidth, widthDelta, heightDelta));
 
 
         if (widthDelta > 0 || heightDelta > 0) {
@@ -163,7 +162,6 @@ public class CustomImageView extends ImageView {
     }
 
     public void setMatrix() {
-        Log.d("nnn", String.format("parentLayout: %d", mParentLayout.getViewPosition()));
         if (mMatrixHelper == null) {
             //Used to cache some values for the matrix calculations
             mMatrixHelper = new MatrixHelper(this, mHeightPercent, mGrandParentLayout.getTotalHeight(), mHeightDeltaOffset);

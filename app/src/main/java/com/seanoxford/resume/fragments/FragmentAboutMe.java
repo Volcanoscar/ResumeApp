@@ -41,12 +41,11 @@ public class FragmentAboutMe extends Fragment {
         CustomChildLayout ccl8 = new CustomChildLayout(mParentActivity, "squid", "#70849302", R.drawable.exp_photo, mParentActivity.getRobotoMedium(), childFragmentManager);
 
         ccl4.alignImageBottomOnResize(true);
-//        ccl3.setScaleToFill(false);
 
         view.addChildLayout(ccl);
         view.addChildLayout(ccl2);
         view.addChildLayout(ccl3);
-        view.addChildLayout(ccl4);
+//        view.addChildLayout(ccl4);
 //        view.addChildLayout(ccl5);
 //        view.addChildLayout(ccl6);
 //        view.addChildLayout(ccl7);

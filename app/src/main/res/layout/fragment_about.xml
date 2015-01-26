@@ -31,7 +31,6 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:splitMotionEvents="false"
-        android:background="#00FF00"
         android:layout_height="match_parent">
 
     </com.seanoxford.resume.customviews.CustomRelativeLayout>
