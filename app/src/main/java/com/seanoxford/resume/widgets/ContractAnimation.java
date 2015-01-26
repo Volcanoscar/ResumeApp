@@ -13,8 +13,8 @@ import com.seanoxford.resume.customviews.CustomRelativeLayout;
 
 public class ContractAnimation extends Animation {
 
-    public interface Listener{
-      abstract void onContractFinish();
+    public interface Listener {
+        abstract void onContractFinish();
     }
 
     protected int[] mTopDimensions;
@@ -49,10 +49,10 @@ public class ContractAnimation extends Animation {
 
         mTextTitlePosition = mSelectedLayoutTitle.getTop();
 
-        if(mCustomChildLayout.getViewPosition() != 0)
-            mDownwardDivisor =  ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) mCustomChildLayout.getViewPosition());
+        if (mCustomChildLayout.getViewPosition() != 0)
+            mDownwardDivisor = ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) mCustomChildLayout.getViewPosition());
 
-        if(mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1)
+        if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1)
             mUpwardDivisor = ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) (mCustomRelativeLayout.getChildCount() - 1 - mCustomChildLayout.getViewPosition()));
 
         mTopDimensions = customRelativeLayout.mPositionsArray;
@@ -79,7 +79,8 @@ public class ContractAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        int totalGrowth = mTotalHeight - mIndividualHeight;
+        Log.d("ppp", "hr = " + mCustomRelativeLayout.getHeightRemainder());
+        int totalGrowth = mTotalHeight - mIndividualHeight + mCustomRelativeLayout.getHeightRemainder();
         int currentHeight = mTotalHeight - Math.round((totalGrowth * interpolatedTime));
 
         int heightDelta = mPreviousHeight - currentHeight;
@@ -91,18 +92,28 @@ public class ContractAnimation extends Animation {
         mIncrementedUpwardTransition -= upwardTransitionIncrement;
 
 
-        if(interpolatedTime == 1) {
+        if (interpolatedTime == 1) {
 //            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()], mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight());
 //            Log.d("nnn", String.format("measuredHeight: %d", mCustomChildLayout.getMeasuredHeight()));
 //            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight());
-            mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 222));
-//            cancel();
+            mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIndividualHeight));
+            cancel();
         } else {
             int topIncrement = Math.round(mIncrementedDownwardTransition);
             int bottomIncrement = Math.round(mIncrementedUpwardTransition);
 
-            mCustomChildLayout.layout(0, 0 + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
-            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
+
+            if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1) {
+                mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement );
+                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
+            } else {
+                mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
+                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
+            }
+
+
+//            mCustomChildLayout.layout(0, 0 + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
+//            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
         }
 
         mPreviousHeight = currentHeight;

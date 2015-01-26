@@ -93,7 +93,7 @@ public class ExpandAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        int totalGrowth = mTotalHeight - mIndividualHeight;
+        int totalGrowth = mTotalHeight - mIndividualHeight + mCustomRelativeLayout.getHeightRemainder();
         int currentHeight = mIndividualHeight + Math.round(totalGrowth * interpolatedTime);
 
         int heightDelta =  currentHeight - mPreviousHeight;
@@ -105,8 +105,8 @@ public class ExpandAnimation extends Animation {
         mIncrementedDownwardTransition += downwardTransitionIncrement;
 
         if(interpolatedTime == 1) {
-            mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
-            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + mCustomRelativeLayout.getHeightRemainder());
+            mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() );
+            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() );
         } else {
             int topIncrement;
             int bottomIncrement;

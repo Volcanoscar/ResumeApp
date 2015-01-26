@@ -81,10 +81,10 @@ public class CustomRelativeLayout extends RelativeLayout {
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
-                if(mTotalHeight < getMeasuredHeight())
+//                if(mTotalHeight < getMeasuredHeight())
                     mHeightRemainder = getMeasuredHeight() - mTotalHeight;
-                else
-                    mHeightRemainder = 0;
+//                else
+//                    mHeightRemainder = 0;
             }
 
             //Incremented int to set the values of increments
@@ -156,7 +156,7 @@ public class CustomRelativeLayout extends RelativeLayout {
             public void onContractFinish() {
                 Log.d("nnn", "contractFinished");
                 resetButtons();
-//                ccl.requestLayout();
+                ccl.requestLayout();
             }
         });
         ccl.startAnimation(contractAnim);
@@ -209,8 +209,8 @@ public class CustomRelativeLayout extends RelativeLayout {
                 int childHeight = mIndividualHeight;
 
                 //Extend the last item's size if mTotalHeight isn't evenly divisible
-                if (i == getChildCount() - 1)
-                    childHeight += mHeightRemainder;
+//                if (i == getChildCount() - 1)
+//                    childHeight += mHeightRemainder;
 
                 //Set the the mIndividualHeight of each relative layout to fill this layout
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, childHeight);

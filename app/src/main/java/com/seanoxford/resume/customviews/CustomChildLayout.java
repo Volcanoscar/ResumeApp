@@ -126,7 +126,7 @@ public class CustomChildLayout extends RelativeLayout {
     }
 
     public void onCollapse(){
-        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
+//        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 888));
         mDetailsLayout.setVisibility(View.GONE);
     }
 

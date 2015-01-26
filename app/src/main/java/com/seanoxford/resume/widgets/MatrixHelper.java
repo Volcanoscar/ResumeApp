@@ -49,7 +49,7 @@ public class MatrixHelper {
 
         if(mViewToDrawableWidth == -1)
             mViewToDrawableWidth = mViewWidth / mScale;
-        float viewToDrawableHeight = viewHeight / mScale;
+        float viewToDrawableHeight = Math.round(viewHeight / mScale);
 
         if(mXOffset == -1)
             mXOffset = mWidthPercent * (mDrawableWidth - mViewToDrawableWidth);
