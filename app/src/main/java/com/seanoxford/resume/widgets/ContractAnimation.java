@@ -27,6 +27,7 @@ public class ContractAnimation extends Animation {
     protected int mTotalHeight;
     protected int mIndividualHeight;
     protected int mPreviousHeight = 0;
+    protected int mRemainderOffset;
 
     protected float mIncrementedDownwardTransition;
     protected float mIncrementedUpwardTransition;
@@ -37,8 +38,9 @@ public class ContractAnimation extends Animation {
 
     protected Listener mListener;
 
-    public ContractAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, Listener listener) {
+    public ContractAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, int remainderOffset, Listener listener) {
         mListener = listener;
+        mRemainderOffset = remainderOffset;
         mCustomRelativeLayout = customRelativeLayout;
         mCustomChildLayout = customChildLayout;
         mCustomImageView = (CustomImageView) mCustomChildLayout.getChildAt(CustomChildLayout.CUSTOMIMAGEVIEW_POSITION);
@@ -79,7 +81,7 @@ public class ContractAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        int totalGrowth = mTotalHeight - mIndividualHeight + mCustomRelativeLayout.getHeightRemainder();
+        int totalGrowth = mTotalHeight - mIndividualHeight;
         int currentHeight = mTotalHeight - Math.round((totalGrowth * interpolatedTime));
 
         int heightDelta = mPreviousHeight - currentHeight;
@@ -92,6 +94,9 @@ public class ContractAnimation extends Animation {
 
 
         if (interpolatedTime == 1) {
+
+
+
             mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIndividualHeight));
             cancel();
         } else {
@@ -99,10 +104,25 @@ public class ContractAnimation extends Animation {
             int bottomIncrement = Math.round(mIncrementedUpwardTransition);
 
 
-                mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
-                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement - mCustomRelativeLayout.getHeightRemainder());
 
 
+            //TODO VALUES  NEED TO BE OFFSET DEPENDING ON THEIR POSITION, 0: 0, 1: 3(?) 2: 6; HAS TO DO WITH mINDIVIDUALHEIGHT BEING LENGTHENED. WORK FROM THERE ALSO CONSIDER EXPAND ANIMATION
+            Log.d("dog", String.format("top: %d, bot: %d, height: %d", topIncrement + 1, mCustomChildLayout.getMeasuredHeight() + bottomIncrement - 1, mCustomChildLayout.getHeight()));
+
+            int layoutTop = topIncrement;
+            int layoutBottom = mCustomChildLayout.getMeasuredHeight() + bottomIncrement;
+            int imageBottom = mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement;
+
+            if(mCustomRelativeLayout.hasPositiveHeightRemainder()){
+                layoutTop +=  mCustomChildLayout.getViewPosition() * 2;
+                layoutBottom += mCustomChildLayout.getViewPosition() * 2;
+            } else {
+                layoutBottom -= mCustomRelativeLayout.getHeightRemainder();
+                imageBottom -= mCustomRelativeLayout.getHeightRemainder();
+            }
+
+            mCustomChildLayout.layout(0, layoutTop , mCustomChildLayout.getMeasuredWidth(), layoutBottom);
+            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), imageBottom);
         }
 
         mPreviousHeight = currentHeight;

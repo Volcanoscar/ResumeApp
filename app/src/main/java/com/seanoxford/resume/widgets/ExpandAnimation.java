@@ -23,6 +23,7 @@ public class ExpandAnimation extends Animation {
     protected int mIndividualHeight;
     protected int mPreviousHeight = 0;
     protected int mTextTitlePosition;
+    protected int mRemainderOffset;
 
     protected float mIncrementedUpwardTransition;
     protected float mIncrementedDownwardTransition;
@@ -41,8 +42,9 @@ public class ExpandAnimation extends Animation {
 
     protected AnimationEndListener mListener;
 
-    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, AnimationEndListener listener){
+    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, int remainderOffset, AnimationEndListener listener){
         mListener = listener;
+        mRemainderOffset = remainderOffset;
         mCustomRelativeLayout = customRelativeLayout;
         mCustomChildLayout = customChildLayout;
         mCustomImageView = (CustomImageView) mCustomChildLayout.getChildAt(CustomChildLayout.CUSTOMIMAGEVIEW_POSITION);
@@ -105,8 +107,15 @@ public class ExpandAnimation extends Animation {
         mIncrementedDownwardTransition += downwardTransitionIncrement;
 
         if(interpolatedTime == 1) {
-            mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() );
-            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() );
+
+
+//            if(mCustomChildLayout.getViewPosition() == mCustomRelativeLayout.getChildCount() - 1) {
+//                mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + 6);
+//                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + 6);
+//            } else{
+            mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight());
+            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight());
+//            }
         } else {
             int topIncrement;
             int bottomIncrement;
@@ -126,8 +135,8 @@ public class ExpandAnimation extends Animation {
                 mToggle = false;
             }
 
-            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()] + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement);
-            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement);
+            mCustomChildLayout.layout(0, mTopDimensions[mCustomChildLayout.getViewPosition()] + topIncrement, mCustomChildLayout.getMeasuredWidth(), mTopDimensions[mCustomChildLayout.getViewPosition()] + mCustomChildLayout.getMeasuredHeight() + bottomIncrement + mRemainderOffset);
+            mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement + mRemainderOffset);
         }
         mPreviousHeight = currentHeight;
     }

@@ -26,15 +26,11 @@ public class CustomRelativeLayout extends RelativeLayout {
     protected int mTotalWidth = -1;
     protected int mIndividualHeight = -1;
     protected int mHeightRemainder = 0;
+    protected int mRemainderOffset = 0;
 
     protected boolean mShouldExpand = true;
     protected boolean mConstantsInitiated = false;
-
-    ExpandAnimation expandAnim;
-    int[] cords =  new int[4];
-
-
-
+    protected boolean mHasHeightRemainder;
 
     public CustomRelativeLayout(Context context) {
         super(context);
@@ -60,6 +56,17 @@ public class CustomRelativeLayout extends RelativeLayout {
         return mSelectedViewPos;
     }
 
+    public int getRemainderOffset(){
+        if(mHasHeightRemainder)
+            return mSelectedViewPos;
+        else
+            return 0;
+    }
+
+    public boolean hasPositiveHeightRemainder(){
+        return mHasHeightRemainder;
+    }
+
     public void addChildLayout(CustomChildLayout rl) {
         addView(rl);
         rl.setViewPosition(mChildCount);
@@ -81,8 +88,24 @@ public class CustomRelativeLayout extends RelativeLayout {
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
-                    mHeightRemainder = getMeasuredHeight() - mTotalHeight;
+                mHeightRemainder = getMeasuredHeight() - mTotalHeight;
             }
+
+
+            if(mTotalHeight % 2 == 1){
+                mIndividualHeight += 1;
+                mTotalHeight = mIndividualHeight * getChildCount();
+            }
+
+            Log.d("derp", String.format("remainder: %d, mTotalHeight: %d, measured: %d, individual: %d", mHeightRemainder, mTotalHeight, getMeasuredHeight(), mIndividualHeight));
+            if(mHeightRemainder > 0) {
+//                mIndividualHeight += 1;
+//                mTotalHeight = mIndividualHeight * getChildCount();
+                mHasHeightRemainder = true;
+            } else {
+                mHasHeightRemainder = false;
+            }
+            Log.d("derp", String.format("2 remainder: %d, mTotalHeight: %d, measured: %d, individual: %d", mHeightRemainder, mTotalHeight, getMeasuredHeight(), mIndividualHeight));
 
             //Incremented int to set the values of increments
             int tempHeight = 0;
@@ -91,6 +114,7 @@ public class CustomRelativeLayout extends RelativeLayout {
                 mPositionsArray[i] = tempHeight;
                 tempHeight += mIndividualHeight;
             }
+
 
             //Preventing measure calculations, accomodating for initial erroneous XML measurements
             if (mIndividualHeight == getChildAt(0).getMeasuredHeight()) {
@@ -132,7 +156,8 @@ public class CustomRelativeLayout extends RelativeLayout {
         //Set Z-index to top
         ccl.bringToFront();
         mSelectedViewPos = ccl.getViewPosition();
-        ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, new ExpandAnimation.AnimationEndListener() {
+
+        ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, 0, new ExpandAnimation.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
                 ccl.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -148,7 +173,8 @@ public class CustomRelativeLayout extends RelativeLayout {
     private void onContractClick(final CustomChildLayout ccl) {
         //sets visibility gone
         ccl.onCollapse();
-        ContractAnimation contractAnim = new ContractAnimation(this, ccl, new ContractAnimation.Listener() {
+        Log.d("asdf", "offset " + mRemainderOffset);
+        ContractAnimation contractAnim = new ContractAnimation(this, ccl, 0, new ContractAnimation.Listener() {
             @Override
             public void onContractFinish() {
                 Log.d("nnn", "contractFinished");

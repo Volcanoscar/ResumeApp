@@ -45,8 +45,8 @@ public class FragmentAboutMe extends Fragment {
         view.addChildLayout(ccl);
         view.addChildLayout(ccl2);
         view.addChildLayout(ccl3);
-//        view.addChildLayout(ccl4);
-//        view.addChildLayout(ccl5);
+        view.addChildLayout(ccl4);
+        view.addChildLayout(ccl5);
 //        view.addChildLayout(ccl6);
 //        view.addChildLayout(ccl7);
 //        view.addChildLayout(ccl8);
