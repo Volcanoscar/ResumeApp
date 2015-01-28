@@ -41,17 +41,8 @@ public class CustomChildLayout extends RelativeLayout {
         init();
     }
 
-    public CustomChildLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
 
-    public CustomChildLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, FragmentManager fragmentManager){
+    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, FragmentManager fragmentManager) {
         super(context);
         mContext = context;
         mFragmentManager = fragmentManager;
@@ -60,10 +51,10 @@ public class CustomChildLayout extends RelativeLayout {
         initTitle(text, typeface);
     }
 
-    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, int layout){
+    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, int layout) {
         super(context);
         mContext = context;
-        if(layout != 0)
+        if (layout != 0)
             mLayout = layout;
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initImageView(image, color);
@@ -71,7 +62,7 @@ public class CustomChildLayout extends RelativeLayout {
 
     }
 
-    private void initImageView(int image, String color){
+    private void initImageView(int image, String color) {
         mImageView = new CustomImageView(mContext);
         mImageView.setImageResource(image);
         mImageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -79,7 +70,7 @@ public class CustomChildLayout extends RelativeLayout {
         addView(mImageView);
     }
 
-    private void initTitle(String text, Typeface typeface){
+    private void initTitle(String text, Typeface typeface) {
         mTitle = new TextView(mContext);
         mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
         mTitle.setText(text);
@@ -89,16 +80,16 @@ public class CustomChildLayout extends RelativeLayout {
         addView(mTitle);
     }
 
-    private void init(){
+    private void init() {
         mImageView = (CustomImageView) getChildAt(CUSTOMIMAGEVIEW_POSITION);
         mTitle = (TextView) getChildAt(TITLE_POSITION);
     }
 
-    public void onExpanded(){
+    public void onExpanded() {
         mIsExpanded = true;
         //To position added fragment within parent
-        if(mFragmentManager != null) {
-            if(mDetailsLayout == null) {
+        if (mFragmentManager != null) {
+            if (mDetailsLayout == null) {
                 mDetailsLayout = new RelativeLayout(mContext);
                 LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 params.addRule(BELOW, TITLE_VIEW_ID);
@@ -109,16 +100,17 @@ public class CustomChildLayout extends RelativeLayout {
                 mDetailsLayout.setId(FRAGMENT_WRAPPER_ID);
 
                 Fragment myFrag = new SubFragmentContact();
-                fragTransaction.add(mDetailsLayout.getId(), myFrag, "fragget");
+                fragTransaction.add(mDetailsLayout.getId(), myFrag, "myFragment");
                 fragTransaction.commit();
                 addView(mDetailsLayout);
-            } else{
+//                mDetailsLayout.setVisibility(View.VISIBLE);
+
+            } else {
                 mDetailsLayout.setVisibility(View.VISIBLE);
             }
-
         } else {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mDetailsLayout = (RelativeLayout)  inflater.inflate(getLayout(), null);
+            mDetailsLayout = (RelativeLayout) inflater.inflate(getLayout(), null);
             RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             params.addRule(BELOW, TITLE_VIEW_ID);
             mDetailsLayout.setLayoutParams(params);
@@ -126,37 +118,37 @@ public class CustomChildLayout extends RelativeLayout {
         }
     }
 
-    public void onCollapse(){
+    public void onCollapse() {
         mDetailsLayout.setVisibility(View.GONE);
     }
 
-    public int getViewPosition(){
+    public int getViewPosition() {
         return mViewPosition;
     }
 
-    public void setViewPosition(int n){
+    public void setViewPosition(int n) {
         mViewPosition = n;
     }
 
-    public void setScaleToFill(boolean toScale){
+    public void setScaleToFill(boolean toScale) {
         mImageView.setScaleToFill(toScale);
     }
 
-    public int getLayout(){
+    public int getLayout() {
         return mLayout;
     }
 
-    public void alignImageBottomOnResize(boolean alignBottom){
+    public void alignImageBottomOnResize(boolean alignBottom) {
         mImageView.alignImageBottomOnResize(alignBottom);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if(mImageView == null)
+        if (mImageView == null)
             mImageView = (CustomImageView) getChildAt(CUSTOMIMAGEVIEW_POSITION);
 
-        if(mTitle == null)
+        if (mTitle == null)
             mTitle = (TextView) getChildAt(TITLE_POSITION);
     }
 
@@ -165,11 +157,11 @@ public class CustomChildLayout extends RelativeLayout {
         super.onLayout(changed, l, t, r, b);
 
         //Calculate the "centerInParent" collapsed specs so text doesn't fall to center after expansion
-        if(mTitleTextCenter == null) {
+        if (mTitleTextCenter == null) {
             mTitleTextCenter = (getLayoutParams().height / 2) - (mTitle.getMeasuredHeight() / 2);
             LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-            params.setMargins(0, mTitleTextCenter, 0 , 0);
+            params.setMargins(0, mTitleTextCenter, 0, 0);
             mTitle.setLayoutParams(params);
         }
     }

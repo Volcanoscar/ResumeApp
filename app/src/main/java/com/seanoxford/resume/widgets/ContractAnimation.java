@@ -17,13 +17,12 @@ public class ContractAnimation extends Animation {
         abstract void onContractFinish();
     }
 
-    protected int[] mTopDimensions;
-
     protected CustomRelativeLayout mCustomRelativeLayout;
     protected CustomChildLayout mCustomChildLayout;
     protected CustomImageView mCustomImageView;
     protected TextView mSelectedLayoutTitle;
 
+    protected int[] mTopDimensions;
     protected int mTotalHeight;
     protected int mIndividualHeight;
     protected int mPreviousHeight = 0;
@@ -34,7 +33,6 @@ public class ContractAnimation extends Animation {
     protected float mDownwardDivisor = 0;
     protected float mUpwardDivisor = 0;
 
-    protected int mTextTitlePosition;
 
     protected Listener mListener;
 
@@ -45,11 +43,8 @@ public class ContractAnimation extends Animation {
         mCustomChildLayout = customChildLayout;
         mCustomImageView = (CustomImageView) mCustomChildLayout.getChildAt(CustomChildLayout.CUSTOMIMAGEVIEW_POSITION);
         mSelectedLayoutTitle = (TextView) mCustomChildLayout.getChildAt(CustomChildLayout.TITLE_POSITION);
-
         mTotalHeight = mCustomRelativeLayout.getTotalHeight();
         mIndividualHeight = mCustomRelativeLayout.getIndividualHeight();
-
-        mTextTitlePosition = mSelectedLayoutTitle.getTop();
 
         if (mCustomChildLayout.getViewPosition() != 0)
             mDownwardDivisor = ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) mCustomChildLayout.getViewPosition());
@@ -83,7 +78,6 @@ public class ContractAnimation extends Animation {
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         int totalGrowth = mTotalHeight - mIndividualHeight;
         int currentHeight = mTotalHeight - Math.round((totalGrowth * interpolatedTime));
-
         int heightDelta = mPreviousHeight - currentHeight;
 
         float downwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mDownwardDivisor : 0;
@@ -94,34 +88,31 @@ public class ContractAnimation extends Animation {
 
 
         if (interpolatedTime == 1) {
-
-
-
             mCustomChildLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mIndividualHeight));
-            cancel();
         } else {
             int topIncrement = Math.round(mIncrementedDownwardTransition);
             int bottomIncrement = Math.round(mIncrementedUpwardTransition);
-
-
-
-
-            //TODO VALUES  NEED TO BE OFFSET DEPENDING ON THEIR POSITION, 0: 0, 1: 3(?) 2: 6; HAS TO DO WITH mINDIVIDUALHEIGHT BEING LENGTHENED. WORK FROM THERE ALSO CONSIDER EXPAND ANIMATION
-            Log.d("dog", String.format("top: %d, bot: %d, height: %d", topIncrement + 1, mCustomChildLayout.getMeasuredHeight() + bottomIncrement - 1, mCustomChildLayout.getHeight()));
 
             int layoutTop = topIncrement;
             int layoutBottom = mCustomChildLayout.getMeasuredHeight() + bottomIncrement;
             int imageBottom = mCustomChildLayout.getMeasuredHeight() - topIncrement + bottomIncrement;
 
-            if(mCustomRelativeLayout.hasPositiveHeightRemainder()){
-                layoutTop +=  mCustomChildLayout.getViewPosition() * 2;
-                layoutBottom += mCustomChildLayout.getViewPosition() * 2;
-            } else {
+
+            //TODO clean up logic
+            if (mCustomRelativeLayout.hasPositiveHeightRemainder()) {
+                layoutTop += mCustomChildLayout.getViewPosition();
+                layoutBottom += mCustomChildLayout.getViewPosition();
+            } else if( !mCustomRelativeLayout.hasPositiveHeightRemainder() && mCustomRelativeLayout.heightWasOdd()) {
+                layoutTop += mCustomChildLayout.getViewPosition();
+                layoutBottom += mCustomChildLayout.getViewPosition();
+                layoutBottom -= mCustomRelativeLayout.getHeightRemainder();
+                imageBottom -= mCustomRelativeLayout.getHeightRemainder();
+            } else{
                 layoutBottom -= mCustomRelativeLayout.getHeightRemainder();
                 imageBottom -= mCustomRelativeLayout.getHeightRemainder();
             }
 
-            mCustomChildLayout.layout(0, layoutTop , mCustomChildLayout.getMeasuredWidth(), layoutBottom);
+            mCustomChildLayout.layout(0, layoutTop, mCustomChildLayout.getMeasuredWidth(), layoutBottom);
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), imageBottom);
         }
 

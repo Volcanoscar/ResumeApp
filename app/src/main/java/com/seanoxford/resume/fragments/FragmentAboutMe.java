@@ -47,6 +47,7 @@ public class FragmentAboutMe extends Fragment {
         view.addChildLayout(ccl3);
         view.addChildLayout(ccl4);
         view.addChildLayout(ccl5);
+        //TODO animation still shaky on small device at high volume of cells
 //        view.addChildLayout(ccl6);
 //        view.addChildLayout(ccl7);
 //        view.addChildLayout(ccl8);

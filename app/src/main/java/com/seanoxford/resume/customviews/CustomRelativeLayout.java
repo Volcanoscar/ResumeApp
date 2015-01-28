@@ -31,6 +31,7 @@ public class CustomRelativeLayout extends RelativeLayout {
     protected boolean mShouldExpand = true;
     protected boolean mConstantsInitiated = false;
     protected boolean mHasHeightRemainder;
+    protected boolean mHeightWasOdd = false;
 
     public CustomRelativeLayout(Context context) {
         super(context);
@@ -40,7 +41,7 @@ public class CustomRelativeLayout extends RelativeLayout {
         super(context, attrs);
     }
 
-    public int getHeightRemainder(){
+    public int getHeightRemainder() {
         return mHeightRemainder;
     }
 
@@ -56,15 +57,19 @@ public class CustomRelativeLayout extends RelativeLayout {
         return mSelectedViewPos;
     }
 
-    public int getRemainderOffset(){
-        if(mHasHeightRemainder)
+    public int getRemainderOffset() {
+        if (mHasHeightRemainder)
             return mSelectedViewPos;
         else
             return 0;
     }
 
-    public boolean hasPositiveHeightRemainder(){
+    public boolean hasPositiveHeightRemainder() {
         return mHasHeightRemainder;
+    }
+
+    public boolean heightWasOdd(){
+        return mHeightWasOdd;
     }
 
     public void addChildLayout(CustomChildLayout rl) {
@@ -91,21 +96,17 @@ public class CustomRelativeLayout extends RelativeLayout {
                 mHeightRemainder = getMeasuredHeight() - mTotalHeight;
             }
 
-
-            if(mTotalHeight % 2 == 1){
+            if (mTotalHeight % 2 == 1) {
+                mHeightWasOdd = true;
                 mIndividualHeight += 1;
                 mTotalHeight = mIndividualHeight * getChildCount();
             }
 
-            Log.d("derp", String.format("remainder: %d, mTotalHeight: %d, measured: %d, individual: %d", mHeightRemainder, mTotalHeight, getMeasuredHeight(), mIndividualHeight));
-            if(mHeightRemainder > 0) {
-//                mIndividualHeight += 1;
-//                mTotalHeight = mIndividualHeight * getChildCount();
+            if (mHeightRemainder > 0) {
                 mHasHeightRemainder = true;
             } else {
                 mHasHeightRemainder = false;
             }
-            Log.d("derp", String.format("2 remainder: %d, mTotalHeight: %d, measured: %d, individual: %d", mHeightRemainder, mTotalHeight, getMeasuredHeight(), mIndividualHeight));
 
             //Incremented int to set the values of increments
             int tempHeight = 0;
@@ -173,17 +174,14 @@ public class CustomRelativeLayout extends RelativeLayout {
     private void onContractClick(final CustomChildLayout ccl) {
         //sets visibility gone
         ccl.onCollapse();
-        Log.d("asdf", "offset " + mRemainderOffset);
         ContractAnimation contractAnim = new ContractAnimation(this, ccl, 0, new ContractAnimation.Listener() {
             @Override
             public void onContractFinish() {
-                Log.d("nnn", "contractFinished");
                 resetButtons();
                 ccl.requestLayout();
             }
         });
         ccl.startAnimation(contractAnim);
-
         mShouldExpand = true;
     }
 
@@ -228,12 +226,7 @@ public class CustomRelativeLayout extends RelativeLayout {
         if (mSelectedViewPos == DEFAULT_MENU_POSITION) {
             for (int i = 0; i < mChildCount; i++) {
                 CustomChildLayout rlChild = (CustomChildLayout) getChildAt(i);
-
                 int childHeight = mIndividualHeight;
-
-                //Extend the last item's size if mTotalHeight isn't evenly divisible
-//                if (i == getChildCount() - 1)
-//                    childHeight += mHeightRemainder;
 
                 //Set the the mIndividualHeight of each relative layout to fill this layout
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, childHeight);
@@ -266,7 +259,7 @@ public class CustomRelativeLayout extends RelativeLayout {
 
             int childHeight = mIndividualHeight;
 
-            if(y  == getChildCount() - 1)
+            if (y == getChildCount() - 1)
                 childHeight += mHeightRemainder;
 
             unselectedChildLayout.layout(0, mPositionsArray[y], mTotalWidth, mPositionsArray[y] + childHeight);

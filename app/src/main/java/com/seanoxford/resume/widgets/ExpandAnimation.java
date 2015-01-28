@@ -107,15 +107,8 @@ public class ExpandAnimation extends Animation {
         mIncrementedDownwardTransition += downwardTransitionIncrement;
 
         if(interpolatedTime == 1) {
-
-
-//            if(mCustomChildLayout.getViewPosition() == mCustomRelativeLayout.getChildCount() - 1) {
-//                mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + 6);
-//                mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight() + 6);
-//            } else{
             mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight());
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight());
-//            }
         } else {
             int topIncrement;
             int bottomIncrement;

@@ -110,8 +110,6 @@ public class CustomImageView extends ImageView {
         int widthDelta = parentWidth - bitmapWidth;
         int heightDelta = parentHeight - bitmapHeight;
 
-
-
         if (widthDelta > 0 || heightDelta > 0) {
             int newWidth = bitmapWidth;
             int newHeight = bitmapHeight;
