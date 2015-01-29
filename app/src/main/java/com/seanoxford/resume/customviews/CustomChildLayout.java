@@ -1,5 +1,6 @@
 package com.seanoxford.resume.customviews;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,28 +8,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.seanoxford.resume.R;
-import com.seanoxford.resume.subfragments.SubFragmentContact;
 
 public class CustomChildLayout extends RelativeLayout {
 
     public static final int CUSTOMIMAGEVIEW_POSITION = 0;
     public static final int TITLE_POSITION = 1;
-    public static final int TITLE_VIEW_ID = 1;
+    public static final int TITLE_VIEW_ID = 72;
     private static final int FRAGMENT_WRAPPER_ID = 2;
 
     protected CustomImageView mImageView;
     protected TextView mTitle;
     protected RelativeLayout mDetailsLayout;
     protected FragmentManager mFragmentManager;
+    protected Fragment mFragment;
 
     protected Context mContext;
     protected Integer mViewPosition;
@@ -36,16 +36,10 @@ public class CustomChildLayout extends RelativeLayout {
     protected int mLayout;
     protected boolean mIsExpanded = false;
 
-    public CustomChildLayout(Context context) {
+    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, Fragment fragment) {
         super(context);
-        init();
-    }
-
-
-    public CustomChildLayout(Context context, String text, String color, int image, Typeface typeface, FragmentManager fragmentManager) {
-        super(context);
+        mFragment = fragment;
         mContext = context;
-        mFragmentManager = fragmentManager;
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initImageView(image, color);
         initTitle(text, typeface);
@@ -80,11 +74,6 @@ public class CustomChildLayout extends RelativeLayout {
         addView(mTitle);
     }
 
-    private void init() {
-        mImageView = (CustomImageView) getChildAt(CUSTOMIMAGEVIEW_POSITION);
-        mTitle = (TextView) getChildAt(TITLE_POSITION);
-    }
-
     public void onExpanded() {
         mIsExpanded = true;
         //To position added fragment within parent
@@ -97,13 +86,14 @@ public class CustomChildLayout extends RelativeLayout {
 
                 FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 
-                mDetailsLayout.setId(FRAGMENT_WRAPPER_ID);
 
-                Fragment myFrag = new SubFragmentContact();
-                fragTransaction.add(mDetailsLayout.getId(), myFrag, "myFragment");
+                //TODO find a way to make this not retarded
+                mDetailsLayout.setId(mViewPosition + 1);
+
+                fragTransaction.add(mDetailsLayout.getId(), mFragment);
                 fragTransaction.commit();
                 addView(mDetailsLayout);
-//                mDetailsLayout.setVisibility(View.VISIBLE);
+                mDetailsLayout.setVisibility(View.VISIBLE);
 
             } else {
                 mDetailsLayout.setVisibility(View.VISIBLE);
@@ -140,6 +130,10 @@ public class CustomChildLayout extends RelativeLayout {
 
     public void alignImageBottomOnResize(boolean alignBottom) {
         mImageView.alignImageBottomOnResize(alignBottom);
+    }
+
+    public void setFragmentManager(FragmentManager fm){
+        mFragmentManager = fm;
     }
 
     @Override

@@ -5,4 +5,27 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+
+    <style name="InfoTextHeaderStyle" parent="android:Theme.Holo.Light">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">10</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="InfoTextDetailStyle" parent="android:Theme.Holo.Light">
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">10</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+
+
 </resources>

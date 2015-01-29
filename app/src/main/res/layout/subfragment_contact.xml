@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="30dp"
+    android:weightSum="60">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello World"/>
+        style="@style/InfoTextHeaderStyle"
+        android:text="Address" />
 
-</RelativeLayout>
+    <TextView
+        style="@style/InfoTextDetailStyle"
+        android:text="2156 Sloat Boulevard\nSan Francisco, CA 94116" />
+
+    <TextView
+        style="@style/InfoTextHeaderStyle"
+        android:text="Phone" />
+
+    <TextView
+        style="@style/InfoTextDetailStyle"
+        android:text="(760) 504-7920" />
+
+    <TextView
+        style="@style/InfoTextHeaderStyle"
+        android:text="Email" />
+
+    <TextView
+        style="@style/InfoTextDetailStyle"
+        android:text="oxford.sean@gmail.com" />
+
+
+</LinearLayout>

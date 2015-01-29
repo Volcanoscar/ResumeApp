@@ -33,6 +33,8 @@ public class CustomRelativeLayout extends RelativeLayout {
     protected boolean mHasHeightRemainder;
     protected boolean mHeightWasOdd = false;
 
+    protected FragmentManager mFragmentManager = null;
+
     public CustomRelativeLayout(Context context) {
         super(context);
     }
@@ -64,6 +66,10 @@ public class CustomRelativeLayout extends RelativeLayout {
             return 0;
     }
 
+    public void setFragmentManager(FragmentManager fm){
+        mFragmentManager = fm;
+    }
+
     public boolean hasPositiveHeightRemainder() {
         return mHasHeightRemainder;
     }
@@ -73,11 +79,12 @@ public class CustomRelativeLayout extends RelativeLayout {
     }
 
     public void addChildLayout(CustomChildLayout rl) {
+        rl.setFragmentManager(mFragmentManager);
         addView(rl);
         rl.setViewPosition(mChildCount);
         mChildCount++;
     }
-
+    //TODO set up so views are added as a method and make constructor contain context and fragment manager.
 
     private void initConstants() {
         if (!mConstantsInitiated) {

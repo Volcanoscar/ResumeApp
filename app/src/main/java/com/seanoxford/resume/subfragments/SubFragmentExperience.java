@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import com.seanoxford.resume.R;
 
-public class SubFragmentContact extends Fragment {
+public class SubFragmentExperience extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.subfragment_contact, container, false);
+        return inflater.inflate(R.layout.subfragment_experience, container, false);
     }
 
     @Override
