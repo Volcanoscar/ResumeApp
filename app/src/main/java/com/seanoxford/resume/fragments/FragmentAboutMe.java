@@ -37,7 +37,7 @@ public class FragmentAboutMe extends Fragment {
         CustomRelativeLayout customRelativeLayout = (CustomRelativeLayout) v.findViewById(R.id.ll_about_me);
         customRelativeLayout.setFragmentManager(childFragmentManager);
 
-        CustomChildLayout ccl = new CustomChildLayout(mParentActivity, "Contact", "#9099cc00", R.drawable.contact_photo, mParentActivity.getRobotoLight(), new SubFragmentContact());
+        CustomChildLayout ccl = new CustomChildLayout(mParentActivity, "Contact", "#aa99cc00", R.drawable.contact_photo, mParentActivity.getRobotoLight(), new SubFragmentContact());
         CustomChildLayout ccl2 = new CustomChildLayout(mParentActivity, "Proficiencies", "#90aa66cc", R.drawable.prof_photo, mParentActivity.getRobotoLight(), new SubFragmentProficiencies());
         CustomChildLayout ccl3 = new CustomChildLayout(mParentActivity, "Experience", "#84ff4444", R.drawable.exp_photo, mParentActivity.getRobotoLight(), new SubFragmentExperience());
         CustomChildLayout ccl4 = new CustomChildLayout(mParentActivity, "Education", "#8033b5e5", R.drawable.edu_photo, mParentActivity.getRobotoLight(), new SubFragmentEducation());
