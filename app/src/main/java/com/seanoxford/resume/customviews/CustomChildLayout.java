@@ -13,11 +13,20 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.seanoxford.resume.R;
+
 
 public class CustomChildLayout extends RelativeLayout {
+
+    interface CollapseFinishedListener{
+        void onCollapseFinish();
+
+    }
 
     public static final int CUSTOMIMAGEVIEW_POSITION = 0;
     public static final int TITLE_POSITION = 1;
@@ -29,6 +38,7 @@ public class CustomChildLayout extends RelativeLayout {
     protected RelativeLayout mDetailsLayout;
     protected FragmentManager mFragmentManager;
     protected Fragment mFragment;
+    protected CollapseFinishedListener mListener;
 
     protected Context mContext;
     protected Integer mViewPosition;
@@ -78,26 +88,32 @@ public class CustomChildLayout extends RelativeLayout {
         mIsExpanded = true;
         //To position added fragment within parent
         if (mFragmentManager != null) {
-            if (mDetailsLayout == null) {
+//            if (mDetailsLayout == null) {
+
+            if(mDetailsLayout == null){
                 mDetailsLayout = new RelativeLayout(mContext);
                 LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 params.addRule(BELOW, TITLE_VIEW_ID);
                 mDetailsLayout.setLayoutParams(params);
+                //TODO make this less hacky
+                mDetailsLayout.setId(mViewPosition + 1);
+                addView(mDetailsLayout);
+            }
+
 
                 FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 
 
-                //TODO find a way to make this not retarded
-                mDetailsLayout.setId(mViewPosition + 1);
-
                 fragTransaction.add(mDetailsLayout.getId(), mFragment);
                 fragTransaction.commit();
-                addView(mDetailsLayout);
-                mDetailsLayout.setVisibility(View.VISIBLE);
 
-            } else {
-                mDetailsLayout.setVisibility(View.VISIBLE);
-            }
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_in);
+            mDetailsLayout.startAnimation(anim);
+            mDetailsLayout.setVisibility(View.VISIBLE);
+
+//            } else {
+//                mDetailsLayout.setVisibility(View.VISIBLE);
+//            }
         } else {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mDetailsLayout = (RelativeLayout) inflater.inflate(getLayout(), null);
@@ -108,8 +124,30 @@ public class CustomChildLayout extends RelativeLayout {
         }
     }
 
-    public void onCollapse() {
-        mDetailsLayout.setVisibility(View.GONE);
+    public void onCollapse(CollapseFinishedListener listener) {
+
+        mListener = listener;
+        Animation fadeOutAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_out);
+        fadeOutAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+                fragTransaction.remove(mFragment);
+                fragTransaction.commit();
+                mDetailsLayout.setVisibility(View.GONE);
+                mListener.onCollapseFinish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mDetailsLayout.startAnimation(fadeOutAnim);
     }
 
     public int getViewPosition() {

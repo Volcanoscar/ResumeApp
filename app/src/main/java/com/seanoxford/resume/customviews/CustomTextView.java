@@ -23,7 +23,7 @@ public class CustomTextView extends TextView {
     final private static int SIZING_HALF = 1;
     ResumeApplication mApp = ResumeApplication.getInstance();
 
-    protected int mSizingAction = -1;
+    protected int mSizingAction = SIZING_DEFAULT;
 
 
     public CustomTextView(Context context) {

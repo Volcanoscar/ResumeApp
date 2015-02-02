@@ -34,6 +34,7 @@ public class CustomRelativeLayout extends RelativeLayout {
     protected boolean mHeightWasOdd = false;
 
     protected FragmentManager mFragmentManager = null;
+    protected CustomRelativeLayout mCustomRelativeLayout;
 
     public CustomRelativeLayout(Context context) {
         super(context);
@@ -84,10 +85,10 @@ public class CustomRelativeLayout extends RelativeLayout {
         rl.setViewPosition(mChildCount);
         mChildCount++;
     }
-    //TODO set up so views are added as a method and make constructor contain context and fragment manager.
 
     private void initConstants() {
         if (!mConstantsInitiated) {
+            mCustomRelativeLayout = this;
             //The distances from the top of this layout to place each sublayout
             mPositionsArray = new int[getChildCount()];
 
@@ -180,16 +181,21 @@ public class CustomRelativeLayout extends RelativeLayout {
 
     private void onContractClick(final CustomChildLayout ccl) {
         //sets visibility gone
-        ccl.onCollapse();
-        ContractAnimation contractAnim = new ContractAnimation(this, ccl, 0, new ContractAnimation.Listener() {
+        ccl.onCollapse(new CustomChildLayout.CollapseFinishedListener() {
             @Override
-            public void onContractFinish() {
-                resetButtons();
-                ccl.requestLayout();
+            public void onCollapseFinish() {
+                ContractAnimation contractAnim = new ContractAnimation(mCustomRelativeLayout, ccl, 0, new ContractAnimation.Listener() {
+                    @Override
+                    public void onContractFinish() {
+                        resetButtons();
+                        ccl.requestLayout();
+                    }
+                });
+                ccl.startAnimation(contractAnim);
+                mShouldExpand = true;
             }
         });
-        ccl.startAnimation(contractAnim);
-        mShouldExpand = true;
+
     }
 
     private void resetButtons() {
