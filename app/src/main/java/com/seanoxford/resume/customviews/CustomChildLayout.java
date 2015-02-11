@@ -91,6 +91,22 @@ public class CustomChildLayout extends RelativeLayout {
         //To position added fragment within parent
         if (mFragmentManager != null) {
 //            if (mDetailsLayout == null) {
+            if(mDetailsLayout == null){
+                mDetailsLayout = new RelativeLayout(mContext);
+                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.setMargins(0, (int)(getContext().getResources().getDisplayMetrics().scaledDensity * 15), 0, 0);
+                params.addRule(BELOW, TITLE_VIEW_ID);
+                mDetailsLayout.setLayoutParams(params);
+                //TODO make this less hacky
+                mDetailsLayout.setId(mViewPosition + 2);
+                addView(mDetailsLayout);
+                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+
+
+                fragTransaction.add(mDetailsLayout.getId(), mFragment);
+                fragTransaction.commit();
+            }
+
 
 
 
@@ -148,22 +164,7 @@ public class CustomChildLayout extends RelativeLayout {
 
     public void setViewPosition(int n) {
         mViewPosition = n;
-        if(mDetailsLayout == null){
-            mDetailsLayout = new RelativeLayout(mContext);
-            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMargins(0, (int)(getContext().getResources().getDisplayMetrics().scaledDensity * 15), 0, 0);
-            params.addRule(BELOW, TITLE_VIEW_ID);
-            mDetailsLayout.setLayoutParams(params);
-            //TODO make this less hacky
-            mDetailsLayout.setId(mViewPosition + 2);
-            addView(mDetailsLayout);
-        }
 
-        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-
-
-        fragTransaction.add(mDetailsLayout.getId(), mFragment);
-        fragTransaction.commit();
     }
 
     public void setScaleToFill(boolean toScale) {

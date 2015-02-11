@@ -61,7 +61,6 @@ public class MatrixHelper {
                 yOffset + viewToDrawableHeight);
 
         RectF viewRect = new RectF(0, 0, mViewWidth, viewHeight);
-
         matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.FILL);
 
         return matrix;
