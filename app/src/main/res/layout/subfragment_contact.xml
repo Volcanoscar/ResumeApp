@@ -12,8 +12,8 @@
         android:id="@+id/tv_contact_address"
         android:text="Address" />
 
-    <com.seanoxford.resume.customviews.CustomTextView
-        android:id="@+id/tv_contract_address_detail"
+    <com.seanoxford.resume.customviews.AutoResizeTextView
+        android:id="@+id/tv_contact_address_detail"
         style="@style/InfoTextDetailStyle"
         android:text="2156 Sloat Boulevard\nSan Francisco, CA 94116" />
 
@@ -22,10 +22,11 @@
         style="@style/InfoTextHeaderStyle"
         android:text="Phone" />
 
-    <com.seanoxford.resume.customviews.CustomTextView
+    <com.seanoxford.resume.customviews.AutoResizeTextView
         android:id="@+id/tv_contact_phone_detail"
         android:paddingBottom="5dp"
         style="@style/InfoTextDetailStyle"
+        android:maxLines="1"
         android:text="(760) 504-7920" />
 
     <com.seanoxford.resume.customviews.CustomTextView
@@ -33,9 +34,10 @@
         style="@style/InfoTextHeaderStyle"
         android:text="Email" />
 
-    <com.seanoxford.resume.customviews.CustomTextView
+    <com.seanoxford.resume.customviews.AutoResizeTextView
         android:id="@+id/tv_contact_email_detail"
         style="@style/InfoTextDetailStyle"
+        android:maxLines="1"
         android:text="oxford.sean@gmail.com" />
 
 

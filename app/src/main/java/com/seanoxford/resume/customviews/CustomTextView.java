@@ -70,7 +70,7 @@ public class CustomTextView extends TextView {
             case SIZING_DEFAULT:
                 break;
             case SIZING_FULL:
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, pixelsToSp(getHeight()));
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, pixelsToSp(getHeight() - 3));
                 break;
             case SIZING_HALF:
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, pixelsToSp(getHeight()) * .4f);

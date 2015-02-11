@@ -21,6 +21,7 @@ public class ResumeApplication extends Application {
         return instance;
     }
 
+
     public Typeface getRobotoBlack(){
         return Typeface.createFromAsset(getAssets(), "Roboto-Black.ttf");
     }

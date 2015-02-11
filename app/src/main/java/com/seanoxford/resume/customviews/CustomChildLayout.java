@@ -72,6 +72,8 @@ public class CustomChildLayout extends RelativeLayout {
         mImageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mImageView.setColor(color);
         addView(mImageView);
+
+
     }
 
     private void initTitle(String text, Typeface typeface) {
@@ -90,22 +92,12 @@ public class CustomChildLayout extends RelativeLayout {
         if (mFragmentManager != null) {
 //            if (mDetailsLayout == null) {
 
-            if(mDetailsLayout == null){
-                mDetailsLayout = new RelativeLayout(mContext);
-                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                params.addRule(BELOW, TITLE_VIEW_ID);
-                mDetailsLayout.setLayoutParams(params);
-                //TODO make this less hacky
-                mDetailsLayout.setId(mViewPosition + 1);
-                addView(mDetailsLayout);
-            }
 
 
-                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
 
 
-                fragTransaction.add(mDetailsLayout.getId(), mFragment);
-                fragTransaction.commit();
+
+
 
             Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_in);
             mDetailsLayout.startAnimation(anim);
@@ -135,9 +127,9 @@ public class CustomChildLayout extends RelativeLayout {
             }
             @Override
             public void onAnimationEnd(Animation animation) {
-                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-                fragTransaction.remove(mFragment);
-                fragTransaction.commit();
+//                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+//                fragTransaction.remove(mFragment);
+//                fragTransaction.commit();
                 mDetailsLayout.setVisibility(View.GONE);
                 mListener.onCollapseFinish();
             }
@@ -156,6 +148,22 @@ public class CustomChildLayout extends RelativeLayout {
 
     public void setViewPosition(int n) {
         mViewPosition = n;
+        if(mDetailsLayout == null){
+            mDetailsLayout = new RelativeLayout(mContext);
+            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.setMargins(0, (int)(getContext().getResources().getDisplayMetrics().scaledDensity * 15), 0, 0);
+            params.addRule(BELOW, TITLE_VIEW_ID);
+            mDetailsLayout.setLayoutParams(params);
+            //TODO make this less hacky
+            mDetailsLayout.setId(mViewPosition + 2);
+            addView(mDetailsLayout);
+        }
+
+        FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+
+
+        fragTransaction.add(mDetailsLayout.getId(), mFragment);
+        fragTransaction.commit();
     }
 
     public void setScaleToFill(boolean toScale) {
