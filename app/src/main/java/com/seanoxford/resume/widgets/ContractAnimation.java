@@ -56,7 +56,7 @@ public class ContractAnimation extends Animation {
         if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1)
             mUpwardDivisor = ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) (mCustomRelativeLayout.getChildCount() - 1 - mCustomChildLayout.getViewPosition()));
 
-        setDuration(2000);
+        setDuration(600);
         setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
