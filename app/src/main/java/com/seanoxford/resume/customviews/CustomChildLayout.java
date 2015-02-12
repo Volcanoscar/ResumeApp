@@ -72,8 +72,6 @@ public class CustomChildLayout extends RelativeLayout {
         mImageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mImageView.setColor(color);
         addView(mImageView);
-
-
     }
 
     private void initTitle(String text, Typeface typeface) {
@@ -90,7 +88,6 @@ public class CustomChildLayout extends RelativeLayout {
         mIsExpanded = true;
         //To position added fragment within parent
         if (mFragmentManager != null) {
-//            if (mDetailsLayout == null) {
             if(mDetailsLayout == null){
                 mDetailsLayout = new RelativeLayout(mContext);
                 LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -101,27 +98,13 @@ public class CustomChildLayout extends RelativeLayout {
                 mDetailsLayout.setId(mViewPosition + 2);
                 addView(mDetailsLayout);
                 FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-
-
                 fragTransaction.add(mDetailsLayout.getId(), mFragment);
                 fragTransaction.commit();
             }
 
-
-
-
-
-
-
-
-
             Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_in);
             mDetailsLayout.startAnimation(anim);
             mDetailsLayout.setVisibility(View.VISIBLE);
-
-//            } else {
-//                mDetailsLayout.setVisibility(View.VISIBLE);
-//            }
         } else {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mDetailsLayout = (RelativeLayout) inflater.inflate(getLayout(), null);
@@ -133,7 +116,6 @@ public class CustomChildLayout extends RelativeLayout {
     }
 
     public void onCollapse(CollapseFinishedListener listener) {
-
         mListener = listener;
         Animation fadeOutAnim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_out);
         fadeOutAnim.setAnimationListener(new Animation.AnimationListener() {
@@ -143,13 +125,9 @@ public class CustomChildLayout extends RelativeLayout {
             }
             @Override
             public void onAnimationEnd(Animation animation) {
-//                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-//                fragTransaction.remove(mFragment);
-//                fragTransaction.commit();
                 mDetailsLayout.setVisibility(View.GONE);
                 mListener.onCollapseFinish();
             }
-
             @Override
             public void onAnimationRepeat(Animation animation) {
 
@@ -164,7 +142,6 @@ public class CustomChildLayout extends RelativeLayout {
 
     public void setViewPosition(int n) {
         mViewPosition = n;
-
     }
 
     public void setScaleToFill(boolean toScale) {

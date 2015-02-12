@@ -22,7 +22,6 @@ public class ExpandAnimation extends Animation {
     protected int mTotalHeight;
     protected int mIndividualHeight;
     protected int mPreviousHeight = 0;
-    protected int mTextTitlePosition;
     protected int mRemainderOffset;
 
     protected float mIncrementedUpwardTransition;
@@ -42,14 +41,12 @@ public class ExpandAnimation extends Animation {
 
     protected AnimationEndListener mListener;
 
-    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, int remainderOffset, AnimationEndListener listener){
+    public ExpandAnimation(CustomRelativeLayout customRelativeLayout, CustomChildLayout customChildLayout, AnimationEndListener listener){
         mListener = listener;
-        mRemainderOffset = remainderOffset;
         mCustomRelativeLayout = customRelativeLayout;
         mCustomChildLayout = customChildLayout;
         mCustomImageView = (CustomImageView) mCustomChildLayout.getChildAt(CustomChildLayout.CUSTOMIMAGEVIEW_POSITION);
         mSelectedLayoutTitle = (TextView) mCustomChildLayout.getChildAt(CustomChildLayout.TITLE_POSITION);
-
         mTotalHeight = mCustomRelativeLayout.getTotalHeight();
         mIndividualHeight = mCustomRelativeLayout.getIndividualHeight();
 
@@ -57,7 +54,6 @@ public class ExpandAnimation extends Animation {
             if(mCustomChildLayout.getViewPosition() == mCustomRelativeLayout.getChildCount() / 2)
                 mIsMiddleView = true;
 
-        mTextTitlePosition = mSelectedLayoutTitle.getTop();
 
         if(mCustomChildLayout.getViewPosition() != 0)
             mUpwardDivisor =  ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) mCustomChildLayout.getViewPosition());
@@ -81,7 +77,7 @@ public class ExpandAnimation extends Animation {
             public void onAnimationEnd(Animation animation) {
                 mCustomChildLayout.setClickable(true);
                 mPreviousHeight = mCustomChildLayout.getMeasuredHeight();
-                mIncrementedDownwardTransition = 0;
+                mIncrementedDownwardTransition = 0f;
                 mIncrementedUpwardTransition = 0f;
                 mListener.onAnimationEnd();
             }
@@ -97,7 +93,6 @@ public class ExpandAnimation extends Animation {
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         int totalGrowth = mTotalHeight - mIndividualHeight + mCustomRelativeLayout.getHeightRemainder();
         int currentHeight = mIndividualHeight + Math.round(totalGrowth * interpolatedTime);
-
         int heightDelta =  currentHeight - mPreviousHeight;
 
         float upwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mUpwardDivisor : 0;

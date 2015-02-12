@@ -328,7 +328,6 @@ public class AutoResizeTextView extends TextView {
             lineCount++;
         }
 
-        int i = 0;
         Pattern p = Pattern.compile("\\n");
         Matcher m = p.matcher(getText());
         while (m.find()) {

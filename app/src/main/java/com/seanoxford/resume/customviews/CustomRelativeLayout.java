@@ -1,17 +1,12 @@
 package com.seanoxford.resume.customviews;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.seanoxford.resume.subfragments.SubFragmentContact;
 import com.seanoxford.resume.widgets.ContractAnimation;
 import com.seanoxford.resume.widgets.ExpandAnimation;
 
@@ -26,12 +21,9 @@ public class CustomRelativeLayout extends RelativeLayout {
     protected int mTotalWidth = -1;
     protected int mIndividualHeight = -1;
     protected int mHeightRemainder = 0;
-    protected int mRemainderOffset = 0;
 
     protected boolean mShouldExpand = true;
     protected boolean mConstantsInitiated = false;
-    protected boolean mHasHeightRemainder;
-    protected boolean mHeightWasOdd = false;
 
     protected FragmentManager mFragmentManager = null;
     protected CustomRelativeLayout mCustomRelativeLayout;
@@ -60,23 +52,8 @@ public class CustomRelativeLayout extends RelativeLayout {
         return mSelectedViewPos;
     }
 
-    public int getRemainderOffset() {
-        if (mHasHeightRemainder)
-            return mSelectedViewPos;
-        else
-            return 0;
-    }
-
-    public void setFragmentManager(FragmentManager fm){
+    public void setFragmentManager(FragmentManager fm) {
         mFragmentManager = fm;
-    }
-
-    public boolean hasPositiveHeightRemainder() {
-        return mHasHeightRemainder;
-    }
-
-    public boolean heightWasOdd(){
-        return mHeightWasOdd;
     }
 
     public void addChildLayout(CustomChildLayout rl) {
@@ -103,19 +80,8 @@ public class CustomRelativeLayout extends RelativeLayout {
                 mHeightRemainder = getMeasuredHeight() - mTotalHeight;
             }
 
-
-
-//            if (mTotalHeight % 2 == 1) {
-//                mHeightWasOdd = true;
-                mIndividualHeight += 1;
-                mTotalHeight = mIndividualHeight * getChildCount();
-//            }
-
-            if (mHeightRemainder > 0) {
-                mHasHeightRemainder = true;
-            } else {
-                mHasHeightRemainder = false;
-            }
+            mIndividualHeight += 1;
+            mTotalHeight = mIndividualHeight * getChildCount();
 
             //Incremented int to set the values of increments
             int tempHeight = 0;
@@ -153,11 +119,10 @@ public class CustomRelativeLayout extends RelativeLayout {
         rl.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mShouldExpand) {
+                if (mShouldExpand)
                     onExpandClick(rl);
-                } else {
+                else
                     onContractClick(rl);
-                }
             }
         });
     }
@@ -167,13 +132,12 @@ public class CustomRelativeLayout extends RelativeLayout {
         ccl.bringToFront();
         mSelectedViewPos = ccl.getViewPosition();
 
-        ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, 0, new ExpandAnimation.AnimationEndListener() {
+        ExpandAnimation expandAnim = new ExpandAnimation(this, ccl, new ExpandAnimation.AnimationEndListener() {
             @Override
             public void onAnimationEnd() {
                 ccl.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 ccl.onExpanded();
             }
-
         });
         ccl.startAnimation(expandAnim);
 
@@ -185,7 +149,7 @@ public class CustomRelativeLayout extends RelativeLayout {
         ccl.onCollapse(new CustomChildLayout.CollapseFinishedListener() {
             @Override
             public void onCollapseFinish() {
-                ContractAnimation contractAnim = new ContractAnimation(mCustomRelativeLayout, ccl, 0, new ContractAnimation.Listener() {
+                ContractAnimation contractAnim = new ContractAnimation(mCustomRelativeLayout, ccl, new ContractAnimation.Listener() {
                     @Override
                     public void onContractFinish() {
                         resetButtons();
@@ -249,13 +213,8 @@ public class CustomRelativeLayout extends RelativeLayout {
                 //Initialize the buttons
                 initListener(rlChild);
 
-                int buffer = 0;
-
-//                if(i == getChildCount() - 1)
-//                    buffer = 2;
-
                 //Layout the child layout within this one
-                rlChild.layout(0, mPositionsArray[i] + buffer, mTotalWidth, mPositionsArray[i] + childHeight + buffer);
+                rlChild.layout(0, mPositionsArray[i], mTotalWidth, mPositionsArray[i] + childHeight);
             }
         } else /* A child layout has been selected */ {
             layoutUnselectedLayouts();
@@ -276,12 +235,7 @@ public class CustomRelativeLayout extends RelativeLayout {
                 y = j;
             }
 
-            int childHeight = mIndividualHeight;
-
-            if (y == getChildCount() - 1)
-                childHeight += mHeightRemainder + 10;
-
-            unselectedChildLayout.layout(0, mPositionsArray[y], mTotalWidth, mPositionsArray[y] + childHeight);
+            unselectedChildLayout.layout(0, mPositionsArray[y], mTotalWidth, mPositionsArray[y] + mIndividualHeight);
         }
     }
 
