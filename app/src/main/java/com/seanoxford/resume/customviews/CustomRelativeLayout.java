@@ -94,21 +94,25 @@ public class CustomRelativeLayout extends RelativeLayout {
 
             mTotalHeight = getMeasuredHeight();
             mTotalWidth = getMeasuredWidth();
-
             //TODO crash divide by zero, can't replicate
             mIndividualHeight = Math.round((float) mTotalHeight / (float) mChildCount);
+            Log.d("ttt", String.format("FIRST mTotalHeight: %d, mIndividualHeight: %d", mTotalHeight, mIndividualHeight));
 
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
                 mHeightRemainder = getMeasuredHeight() - mTotalHeight;
+                Log.d("ttt", String.format("measured isn't product of indi, mTotalHeight: %d, remainder: %d", mTotalHeight, mHeightRemainder));
             }
 
-            if (mTotalHeight % 2 == 1) {
-                mHeightWasOdd = true;
+
+
+//            if (mTotalHeight % 2 == 1) {
+//                mHeightWasOdd = true;
                 mIndividualHeight += 1;
                 mTotalHeight = mIndividualHeight * getChildCount();
-            }
+                Log.d("ttt", String.format("mTotal Height odd, mIndividualHeight: %d, mTotal: %d", mIndividualHeight, mTotalHeight));
+//            }
 
             if (mHeightRemainder > 0) {
                 mHasHeightRemainder = true;
@@ -248,8 +252,13 @@ public class CustomRelativeLayout extends RelativeLayout {
                 //Initialize the buttons
                 initListener(rlChild);
 
+                int buffer = 0;
+
+//                if(i == getChildCount() - 1)
+//                    buffer = 2;
+
                 //Layout the child layout within this one
-                rlChild.layout(0, mPositionsArray[i], mTotalWidth, mPositionsArray[i] + childHeight);
+                rlChild.layout(0, mPositionsArray[i] + buffer, mTotalWidth, mPositionsArray[i] + childHeight + buffer);
             }
         } else /* A child layout has been selected */ {
             layoutUnselectedLayouts();
@@ -273,7 +282,7 @@ public class CustomRelativeLayout extends RelativeLayout {
             int childHeight = mIndividualHeight;
 
             if (y == getChildCount() - 1)
-                childHeight += mHeightRemainder;
+                childHeight += mHeightRemainder + 10;
 
             unselectedChildLayout.layout(0, mPositionsArray[y], mTotalWidth, mPositionsArray[y] + childHeight);
         }

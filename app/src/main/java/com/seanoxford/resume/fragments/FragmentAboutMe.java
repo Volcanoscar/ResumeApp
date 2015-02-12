@@ -38,8 +38,8 @@ public class FragmentAboutMe extends Fragment {
         View v = inflater.inflate(R.layout.fragment_about, null);
 
         //TODO animation height glitch
-//        TextView tvName = (TextView) v.findViewById(R.id.tv_sean_oxford);
-//        tvName.setTypeface(mApp.getRobotoBlack());
+        TextView tvName = (TextView) v.findViewById(R.id.tv_sean_oxford);
+        tvName.setTypeface(mApp.getRobotoBlack());
         TextView tvAndroidDev = (TextView) v.findViewById(R.id.tv_android_developer);
         tvAndroidDev.setText(Html.fromHtml("Android <font color=\"#2e2e2e\">Developer</font>"));
 
@@ -51,10 +51,10 @@ public class FragmentAboutMe extends Fragment {
         CustomChildLayout ccl2 = new CustomChildLayout(mParentActivity, "Proficiencies", "#ccaa66cc", R.drawable.prof_photo, mParentActivity.getRobotoLight(), new SubFragmentProficiencies());
         CustomChildLayout ccl3 = new CustomChildLayout(mParentActivity, "Experience", "#aaff4444", R.drawable.exp_photo, mParentActivity.getRobotoLight(), new SubFragmentExperience());
         CustomChildLayout ccl4 = new CustomChildLayout(mParentActivity, "Education", "#8033b5e5", R.drawable.edu_photo, mParentActivity.getRobotoLight(), new SubFragmentEducation());
-//        CustomChildLayout ccl5 = new CustomChildLayout(mParentActivity, "pillow", "#84007700", R.drawable.edu_photo, mParentActivity.getRobotoMedium(), childFragmentManager);
-//        CustomChildLayout ccl6 = new CustomChildLayout(mParentActivity, "rhino", "#70259244", R.drawable.exp_photo, mParentActivity.getRobotoMedium(), childFragmentManager);
-//        CustomChildLayout ccl7 = new CustomChildLayout(mParentActivity, "wombat", "#70849302", R.drawable.contact_photo, mParentActivity.getRobotoMedium(), childFragmentManager);
-//        CustomChildLayout ccl8 = new CustomChildLayout(mParentActivity, "squid", "#70849302", R.drawable.exp_photo, mParentActivity.getRobotoMedium(), childFragmentManager);
+        CustomChildLayout ccl5 = new CustomChildLayout(mParentActivity, "pillow", "#84007700", R.drawable.edu_photo, mParentActivity.getRobotoMedium(),  new SubFragmentEducation());
+        CustomChildLayout ccl6 = new CustomChildLayout(mParentActivity, "rhino", "#70259244", R.drawable.exp_photo, mParentActivity.getRobotoMedium(), new SubFragmentEducation());
+        CustomChildLayout ccl7 = new CustomChildLayout(mParentActivity, "wombat", "#70849302", R.drawable.contact_photo, mParentActivity.getRobotoMedium(), new SubFragmentEducation());
+        CustomChildLayout ccl8 = new CustomChildLayout(mParentActivity, "squid", "#70849302", R.drawable.exp_photo, mParentActivity.getRobotoMedium(), new SubFragmentEducation());
 
         ccl4.alignImageBottomOnResize(true);
 
@@ -62,10 +62,10 @@ public class FragmentAboutMe extends Fragment {
         customRelativeLayout.addChildLayout(ccl2);
         customRelativeLayout.addChildLayout(ccl3);
         customRelativeLayout.addChildLayout(ccl4);
-//        view.addChildLayout(ccl5);
+        customRelativeLayout.addChildLayout(ccl5);
         //TODO animation still shaky on small device at high volume of cells
-//        view.addChildLayout(ccl6);
-//        view.addChildLayout(ccl7);
+//        customRelativeLayout.addChildLayout(ccl6);
+//        customRelativeLayout.addChildLayout(ccl7);
 //        view.addChildLayout(ccl8);
 
 
