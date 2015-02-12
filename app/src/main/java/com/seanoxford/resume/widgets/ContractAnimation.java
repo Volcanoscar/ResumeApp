@@ -46,8 +46,8 @@ public class ContractAnimation extends Animation {
         mTopDimensions = customRelativeLayout.mPositionsArray;
         mPreviousHeight = mTotalHeight;
 
-        if(mCustomRelativeLayout.getChildCount() % 2 == 1)
-            if(mCustomChildLayout.getViewPosition() == mCustomRelativeLayout.getChildCount() / 2)
+        if (mCustomRelativeLayout.getChildCount() % 2 == 1)
+            if (mCustomChildLayout.getViewPosition() == mCustomRelativeLayout.getChildCount() / 2)
                 mIsMiddleView = true;
 
         if (mCustomChildLayout.getViewPosition() != 0)
@@ -56,7 +56,7 @@ public class ContractAnimation extends Animation {
         if (mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1)
             mUpwardDivisor = ((float) (mCustomRelativeLayout.getChildCount() - 1) / (float) (mCustomRelativeLayout.getChildCount() - 1 - mCustomChildLayout.getViewPosition()));
 
-        setDuration(600);
+        setDuration(2000);
         setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -77,7 +77,7 @@ public class ContractAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        int totalGrowth = mTotalHeight - mIndividualHeight  ;
+        int totalGrowth = mTotalHeight - mIndividualHeight;
         int currentHeight = mTotalHeight - Math.round((totalGrowth * interpolatedTime));
         int heightDelta = mPreviousHeight - currentHeight;
 
@@ -93,10 +93,10 @@ public class ContractAnimation extends Animation {
             int topIncrement;
             int bottomIncrement;
 
-            if(!mIsMiddleView){
+            if (!mIsMiddleView) {
                 bottomIncrement = Math.round(mIncrementedUpwardTransition);
                 topIncrement = Math.round(mIncrementedDownwardTransition);
-            } else if(!mToggle && mIsMiddleView) {
+            } else if (!mToggle && mIsMiddleView) {
                 bottomIncrement = Math.round(mIncrementedUpwardTransition);
                 topIncrement = (int) mIncrementedDownwardTransition;
                 mToggle = true;
@@ -106,11 +106,12 @@ public class ContractAnimation extends Animation {
                 mToggle = false;
             }
 
-            int layoutBottom = mCustomChildLayout.getMeasuredHeight() + bottomIncrement;
+            int layoutBottom = mTotalHeight + bottomIncrement;
             int imageBottom = mTotalHeight - topIncrement + bottomIncrement;
 
             mCustomChildLayout.layout(0, topIncrement, mCustomChildLayout.getMeasuredWidth(), layoutBottom);
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), imageBottom);
+
         }
         mPreviousHeight = currentHeight;
     }
