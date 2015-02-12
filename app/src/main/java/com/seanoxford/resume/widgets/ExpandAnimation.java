@@ -99,14 +99,12 @@ public class ExpandAnimation extends Animation {
         int currentHeight = mIndividualHeight + Math.round(totalGrowth * interpolatedTime);
 
         int heightDelta =  currentHeight - mPreviousHeight;
-        Log.d("vvv", String.format("expand totalHeight: %d, individualHeight: %d, growth: %d, currentHeight: %d, heightDelta: %d", mTotalHeight, mIndividualHeight, totalGrowth, currentHeight, heightDelta));
 
         float upwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mUpwardDivisor : 0;
         float downwardTransitionIncrement = mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1 ? (float) heightDelta / mDownwardDivisor : 0;
 
         mIncrementedUpwardTransition -= upwardTransitionIncrement;
         mIncrementedDownwardTransition += downwardTransitionIncrement;
-        Log.d("mmm", String.format("downwardInc: %f, upwardInc: %f, downwardTrans: %f, upwardTrans: %f", downwardTransitionIncrement, upwardTransitionIncrement, mIncrementedDownwardTransition, mIncrementedUpwardTransition));
 
         if(interpolatedTime == 1) {
             mCustomChildLayout.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), mCustomRelativeLayout.getTotalHeight());

@@ -96,13 +96,11 @@ public class CustomRelativeLayout extends RelativeLayout {
             mTotalWidth = getMeasuredWidth();
             //TODO crash divide by zero, can't replicate
             mIndividualHeight = Math.round((float) mTotalHeight / (float) mChildCount);
-            Log.d("ttt", String.format("FIRST mTotalHeight: %d, mIndividualHeight: %d", mTotalHeight, mIndividualHeight));
 
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
             if (mIndividualHeight * getChildCount() != mTotalHeight) {
                 mTotalHeight = mIndividualHeight * getChildCount();
                 mHeightRemainder = getMeasuredHeight() - mTotalHeight;
-                Log.d("ttt", String.format("measured isn't product of indi, mTotalHeight: %d, remainder: %d", mTotalHeight, mHeightRemainder));
             }
 
 
@@ -111,7 +109,6 @@ public class CustomRelativeLayout extends RelativeLayout {
 //                mHeightWasOdd = true;
                 mIndividualHeight += 1;
                 mTotalHeight = mIndividualHeight * getChildCount();
-                Log.d("ttt", String.format("mTotal Height odd, mIndividualHeight: %d, mTotal: %d", mIndividualHeight, mTotalHeight));
 //            }
 
             if (mHeightRemainder > 0) {

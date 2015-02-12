@@ -82,17 +82,14 @@ public class ContractAnimation extends Animation {
 
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
-        Log.d("bbb", "previousHeight: " + mPreviousHeight);
         int totalGrowth = mTotalHeight - mIndividualHeight  ;
         int currentHeight = mTotalHeight - Math.round((totalGrowth * interpolatedTime));
         int heightDelta = mPreviousHeight - currentHeight;
-        Log.d("vvv", String.format("totalHeight: %d, individualHeight: %d, growth: %d, currentHeight: %d, heightDelta: %d", mTotalHeight, mIndividualHeight, totalGrowth, currentHeight, heightDelta));
 
 
         float downwardTransitionIncrement = mCustomChildLayout.getViewPosition() != 0 ? (float) heightDelta / mDownwardDivisor : 0;
         float upwardTransitionIncrement = mCustomChildLayout.getViewPosition() != mCustomRelativeLayout.getChildCount() - 1 ? (float) heightDelta / mUpwardDivisor : 0;
 
-        Log.d("mmm", String.format("downwardInc: %f, upwardInc: %f, downwardTrans: %f, upwardTrans: %f", downwardTransitionIncrement, upwardTransitionIncrement, mIncrementedDownwardTransition, mIncrementedUpwardTransition));
 
         mIncrementedDownwardTransition += downwardTransitionIncrement;
         mIncrementedUpwardTransition -= upwardTransitionIncrement;
@@ -145,8 +142,6 @@ public class ContractAnimation extends Animation {
 //                imageBottom -= mCustomRelativeLayout.getHeightRemainder();
 //            }
 
-            Log.d("uuu", String.format("ANIMATION: layoutTop: %d, layoutBottom: %d, imageBottom: %d, individualHeight: %d", layoutTop, layoutBottom, imageBottom, mIndividualHeight));
-            Log.d("uuu", String.format("ANIMATION: mIncrementedUp: %f, mIncrementedDown: %f, sum: %f", mIncrementedUpwardTransition, mIncrementedDownwardTransition, mIncrementedUpwardTransition + mIncrementedDownwardTransition));
             mCustomChildLayout.layout(0, layoutTop, mCustomChildLayout.getMeasuredWidth(), layoutBottom);
             mCustomImageView.layout(0, 0, mCustomChildLayout.getMeasuredWidth(), imageBottom);
         }

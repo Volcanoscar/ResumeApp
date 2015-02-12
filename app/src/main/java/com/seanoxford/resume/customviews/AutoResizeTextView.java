@@ -305,7 +305,6 @@ public class AutoResizeTextView extends TextView {
             reAdjust();
             mFirstMeasured = true;
 //            while (getHeight() - getTextHeight(getText().toString(), getMeasuredWidth(), getTextSize(), getTypeface()) > getHeight() * .15f && mPaint.measureText(getText().toString()) < getWidth() * .8f) {
-////                Log.d("hhh", String.format("Text: %s, height: %d, textHeight: %d, multiplied: %f, width: %d, mRectWidth: %f", getText().toString().substring(0, 5), getHeight(), getTextHeight(getText().toString(), getMeasuredWidth(), getTextSize(), getTypeface()), getHeight() * .1f, getWidth(), mPaint.measureText(getText().toString())));
 //                mResult++;
 //                super.setTextSize(TypedValue.COMPLEX_UNIT_PX, mResult);
 //                mPaint = getPaint();
