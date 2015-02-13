@@ -20,17 +20,24 @@ import com.seanoxford.resume.subfragments.SubFragmentContact;
 import com.seanoxford.resume.subfragments.SubFragmentEducation;
 import com.seanoxford.resume.subfragments.SubFragmentExperience;
 import com.seanoxford.resume.subfragments.SubFragmentProficiencies;
+import com.seanoxford.resume.widgets.BackPressedInfoContainer;
 import com.seanoxford.resume.widgets.ResumeApplication;
 
 public class FragmentAboutMe extends Fragment {
 
+    public interface BackPressedListener{
+        public void isResumeExpanded(BackPressedInfoContainer backPressedInfoContainer);
+    }
+
 
     protected BaseActivity mParentActivity;
     protected ResumeApplication mApp;
+    protected BackPressedListener mBackPressedListener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mBackPressedListener = (BackPressedListener) activity;
         mApp = ResumeApplication.getInstance();
         mParentActivity = (BaseActivity) getActivity();
     }
@@ -45,7 +52,14 @@ public class FragmentAboutMe extends Fragment {
         TextView tvAndroidDev = (TextView) v.findViewById(R.id.tv_android_developer);
         tvAndroidDev.setText(Html.fromHtml("Android <font color=\"#2e2e2e\">Developer</font>"));
 
-        CustomRelativeLayout customRelativeLayout = (CustomRelativeLayout) v.findViewById(R.id.ll_about_me);
+        final CustomRelativeLayout customRelativeLayout = (CustomRelativeLayout) v.findViewById(R.id.ll_about_me);
+        customRelativeLayout.setIsExpandedInterface(new CustomRelativeLayout.IsResumeExpanded() {
+
+            @Override
+            public void isExpanded(BackPressedInfoContainer backPressedInfoContainer) {
+                mBackPressedListener.isResumeExpanded(backPressedInfoContainer);
+            }
+        });
         customRelativeLayout.setFragmentManager(getChildFragmentManager());
 
         CustomChildLayout ccl = new CustomChildLayout(mParentActivity, "Contact", "#aa99cc00", R.drawable.contact_photo, mParentActivity.getRobotoLight(), new SubFragmentContact());

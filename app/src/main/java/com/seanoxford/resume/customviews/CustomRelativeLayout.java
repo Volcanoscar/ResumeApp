@@ -7,10 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.seanoxford.resume.widgets.BackPressedInfoContainer;
 import com.seanoxford.resume.widgets.ContractAnimation;
 import com.seanoxford.resume.widgets.ExpandAnimation;
 
 public class CustomRelativeLayout extends RelativeLayout {
+
+
+    public interface IsResumeExpanded{
+        public void isExpanded(BackPressedInfoContainer backPressedInfoContainer);
+    }
+
+
 
     private static final int DEFAULT_MENU_POSITION = -1;
 
@@ -27,6 +35,7 @@ public class CustomRelativeLayout extends RelativeLayout {
 
     protected FragmentManager mFragmentManager = null;
     protected CustomRelativeLayout mCustomRelativeLayout;
+    protected IsResumeExpanded mIsResumeExpanded;
 
     public CustomRelativeLayout(Context context) {
         super(context);
@@ -54,6 +63,10 @@ public class CustomRelativeLayout extends RelativeLayout {
 
     public void setFragmentManager(FragmentManager fm) {
         mFragmentManager = fm;
+    }
+
+    public void setIsExpandedInterface(IsResumeExpanded isExpandedInterface){
+        mIsResumeExpanded = isExpandedInterface;
     }
 
     public void addChildLayout(CustomChildLayout rl) {
@@ -126,7 +139,7 @@ public class CustomRelativeLayout extends RelativeLayout {
         });
     }
 
-    private void onExpandClick(final CustomChildLayout ccl) {
+    public void onExpandClick(final CustomChildLayout ccl) {
         //Set Z-index to top
         ccl.bringToFront();
         mSelectedViewPos = ccl.getViewPosition();
@@ -136,6 +149,7 @@ public class CustomRelativeLayout extends RelativeLayout {
             public void onAnimationEnd() {
                 ccl.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 ccl.onExpanded();
+                mIsResumeExpanded.isExpanded(new BackPressedInfoContainer(true, mCustomRelativeLayout, ccl));
             }
         });
         ccl.startAnimation(expandAnim);
@@ -143,7 +157,7 @@ public class CustomRelativeLayout extends RelativeLayout {
         mShouldExpand = false;
     }
 
-    private void onContractClick(final CustomChildLayout ccl) {
+    public void onContractClick(final CustomChildLayout ccl) {
         //sets visibility gone
         ccl.onCollapse(new CustomChildLayout.CollapseFinishedListener() {
             @Override
@@ -153,6 +167,8 @@ public class CustomRelativeLayout extends RelativeLayout {
                     public void onContractFinish() {
                         resetButtons();
                         ccl.requestLayout();
+                        mIsResumeExpanded.isExpanded(new BackPressedInfoContainer(false, mCustomRelativeLayout, ccl));
+
                     }
                 });
                 ccl.startAnimation(contractAnim);

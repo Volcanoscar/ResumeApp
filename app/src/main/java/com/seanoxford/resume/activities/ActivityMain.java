@@ -9,12 +9,22 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 import com.seanoxford.resume.R;
 import com.seanoxford.resume.adapters.AdapterViewPager;
+import com.seanoxford.resume.customviews.CustomRelativeLayout;
 import com.seanoxford.resume.fragments.FragmentAboutMe;
+import com.seanoxford.resume.widgets.BackPressedInfoContainer;
 
 
-public class ActivityMain extends BaseActivity {
+public class ActivityMain extends BaseActivity implements FragmentAboutMe.BackPressedListener{
     protected ViewPager mViewPager;
-    protected boolean mIsResumeExpanded = false;
+    protected BackPressedInfoContainer mBackPressedInfoContainer;
+
+    @Override
+    public void onBackPressed() {
+        if(mBackPressedInfoContainer == null || !mBackPressedInfoContainer.getIsExpanded())
+            super.onBackPressed();
+        else
+            mBackPressedInfoContainer.contractLayout();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,4 +59,8 @@ public class ActivityMain extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void isResumeExpanded(BackPressedInfoContainer backPressedInfoContainer) {
+        mBackPressedInfoContainer = backPressedInfoContainer;
+    }
 }
