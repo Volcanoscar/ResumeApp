@@ -2,17 +2,19 @@ package com.seanoxford.resume.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.seanoxford.resume.R;
 import com.seanoxford.resume.adapters.AdapterViewPager;
+import com.seanoxford.resume.fragments.FragmentAboutMe;
 
 
-public class ActivityMain extends BaseActivity{
-
+public class ActivityMain extends BaseActivity {
     protected ViewPager mViewPager;
+    protected boolean mIsResumeExpanded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,4 +48,5 @@ public class ActivityMain extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

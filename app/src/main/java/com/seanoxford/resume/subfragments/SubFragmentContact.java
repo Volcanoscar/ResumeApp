@@ -17,7 +17,6 @@ import com.seanoxford.resume.widgets.ResumeApplication;
 
 public class SubFragmentContact extends Fragment {
 
-
     protected ResumeApplication mApp;
 
     @Override
@@ -32,9 +31,6 @@ public class SubFragmentContact extends Fragment {
         address.setTypeface(mApp.getRobotoLight());
         phone.setTypeface(mApp.getRobotoLight());
         email.setTypeface(mApp.getRobotoLight());
-
-
-
 
         return v;
     }

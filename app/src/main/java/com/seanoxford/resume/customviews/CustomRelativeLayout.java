@@ -71,7 +71,6 @@ public class CustomRelativeLayout extends RelativeLayout {
 
             mTotalHeight = getMeasuredHeight();
             mTotalWidth = getMeasuredWidth();
-            //TODO crash divide by zero, can't replicate
             mIndividualHeight = Math.round((float) mTotalHeight / (float) mChildCount);
 
             //Workaround for height issue when measuredHeight is not perfectly divisible by item count
