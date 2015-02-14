@@ -56,7 +56,7 @@ public class AdapterViewPager extends FragmentStatePagerAdapter {
                 title = "Projects";
                 break;
             case FRAGMENT_GUESTBOOK:
-                title = "Guestbook";
+                title = "Interview";
                 break;
         }
 
