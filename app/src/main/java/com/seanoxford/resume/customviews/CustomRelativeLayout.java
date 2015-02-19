@@ -70,9 +70,9 @@ public class CustomRelativeLayout extends RelativeLayout {
     }
 
     public void addChildLayout(CustomChildLayout rl) {
-        rl.setFragmentManager(mFragmentManager);
-        addView(rl);
         rl.setViewPosition(mChildCount);
+        rl.initFragments(mFragmentManager);
+        addView(rl);
         mChildCount++;
     }
 

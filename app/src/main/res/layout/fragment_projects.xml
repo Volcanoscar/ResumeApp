@@ -7,6 +7,5 @@
         android:layout_height="30dp"
         android:id="@+id/test_text"/>
 
-    <T
 
 </RelativeLayout>

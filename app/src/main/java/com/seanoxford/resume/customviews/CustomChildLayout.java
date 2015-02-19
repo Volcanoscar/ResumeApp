@@ -23,7 +23,7 @@ import com.seanoxford.resume.R;
 
 public class CustomChildLayout extends RelativeLayout {
 
-    interface CollapseFinishedListener{
+    interface CollapseFinishedListener {
         void onCollapseFinish();
 
     }
@@ -87,32 +87,10 @@ public class CustomChildLayout extends RelativeLayout {
     public void onExpanded() {
         mIsExpanded = true;
         //To position added fragment within parent
-        if (mFragmentManager != null) {
-            if(mDetailsLayout == null){
-                mDetailsLayout = new RelativeLayout(mContext);
-                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                params.setMargins(0, (int)(getContext().getResources().getDisplayMetrics().scaledDensity * 15), 0, 0);
-                params.addRule(BELOW, TITLE_VIEW_ID);
-                mDetailsLayout.setLayoutParams(params);
-                //TODO make this less hacky
-                mDetailsLayout.setId(mViewPosition + 2);
-                addView(mDetailsLayout);
-                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
-                fragTransaction.add(mDetailsLayout.getId(), mFragment);
-                fragTransaction.commit();
-            }
+        Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_in);
+        mDetailsLayout.startAnimation(anim);
+        mDetailsLayout.setVisibility(View.VISIBLE);
 
-            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragment_fade_in);
-            mDetailsLayout.startAnimation(anim);
-            mDetailsLayout.setVisibility(View.VISIBLE);
-        } else {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mDetailsLayout = (RelativeLayout) inflater.inflate(getLayout(), null);
-            RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.addRule(BELOW, TITLE_VIEW_ID);
-            mDetailsLayout.setLayoutParams(params);
-            addView(mDetailsLayout);
-        }
     }
 
     public void onCollapse(CollapseFinishedListener listener) {
@@ -123,11 +101,13 @@ public class CustomChildLayout extends RelativeLayout {
             public void onAnimationStart(Animation animation) {
 
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 mDetailsLayout.setVisibility(View.GONE);
                 mListener.onCollapseFinish();
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
 
@@ -156,9 +136,33 @@ public class CustomChildLayout extends RelativeLayout {
         mImageView.alignImageBottomOnResize(alignBottom);
     }
 
-    public void setFragmentManager(FragmentManager fm){
+    public void initFragments(FragmentManager fm) {
         mFragmentManager = fm;
+        if (mFragmentManager != null) {
+            if (mDetailsLayout == null) {
+                mDetailsLayout = new RelativeLayout(mContext);
+                LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.addRule(BELOW, TITLE_VIEW_ID);
+                mDetailsLayout.setLayoutParams(params);
+                //TODO make this less hacky
+                mDetailsLayout.setId(mViewPosition + 2);
+                mDetailsLayout.setVisibility(View.INVISIBLE);
+                addView(mDetailsLayout);
+                FragmentTransaction fragTransaction = mFragmentManager.beginTransaction();
+                fragTransaction.add(mDetailsLayout.getId(), mFragment);
+                fragTransaction.commit();
+            }
+        } else {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mDetailsLayout = (RelativeLayout) inflater.inflate(getLayout(), null);
+            RelativeLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.addRule(BELOW, TITLE_VIEW_ID);
+            mDetailsLayout.setLayoutParams(params);
+            addView(mDetailsLayout);
+        }
+
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
